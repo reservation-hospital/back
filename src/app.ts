@@ -15,6 +15,6 @@ app.use(express.urlencoded({ extended: false }));
 
 app.set("views", path.join(__dirname, "views"));
 
-app.listen(6000, () => {
+app.listen(port, () => {
   console.log(`SERVER started at http://localhost:${port} ^-^`);
 });
