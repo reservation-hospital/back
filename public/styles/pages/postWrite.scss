@@ -1,0 +1,15 @@
+@import "../_reset";
+
+#wrap {
+  min-height: 100vh;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    input {
+      border: 1px solid #aaa;
+    }
+  }
+}

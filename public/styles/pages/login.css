@@ -1,0 +1,80 @@
+#wrap {
+  display: flex;
+  min-height: 100dvh;
+  align-items: center;
+  flex-direction: column;
+}
+#wrap #wrap-contents {
+  padding: 40px;
+  flex: 1 auto;
+  width: 100%;
+}
+@media screen and (min-width: 768px) {
+  #wrap #wrap-contents {
+    padding: 64px;
+  }
+}
+#wrap #form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 440px;
+  align-self: center;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
+}
+@media screen and (min-width: 768px) {
+  #wrap #form {
+    padding: 20px;
+    border: 1px solid var(--login-box, #c6cfd8);
+  }
+}
+#wrap .footer {
+  justify-self: flex-end;
+  background-color: #f6f6f6;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 11px;
+  color: rgb(147, 152, 170);
+}
+
+.Title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+.Title img {
+  margin: 0 auto;
+}
+
+.TextInputSet {
+  width: 100%;
+}
+.TextInputSet .InputLabel {
+  font-size: 10px;
+}
+.TextInputSet .TextInput {
+  width: 100%;
+  border: 1px solid #c6cfd8;
+  padding: 8px 8px;
+}
+
+.Button {
+  width: 100%;
+  height: 40px;
+  background-color: #0070f3;
+  color: #fff;
+}
+.Button:hover {
+  background-color: #0056b3;
+  color: #fff;
+}/*# sourceMappingURL=login.css.map */
