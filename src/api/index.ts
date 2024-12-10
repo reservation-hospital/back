@@ -4,6 +4,11 @@ const ADMIN_ROUTES = {
     ADMIN_API: "/api/admin",
   } as const;
 
+const HOSPITAL_ROUTES = {
+  HOSPITAL_API: "/api/hospital",
+};
+
 export const ROUTES_INDEX = {
  ...ADMIN_ROUTES,
+...HOSPITAL_ROUTES,
 } as const;
