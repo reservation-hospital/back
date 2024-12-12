@@ -14,7 +14,12 @@ const hospitalSchema = new mongoose.Schema(
     description: { type: String, required: true },
     status: { type: String, enum: ["ACTIVE", "INACTIVE"], default: "INACTIVE" },
   },
-  { timestamps: true }
+  {
+    timestamps: {
+      createdAt: "createdAt",
+      updatedAt: "updatedAt",
+    },
+ }
 );
 
-export const mongooseHospital = mongoose.model("hospital", hospitalSchema);
+export const MongooseHospital = mongoose.model("hospital", hospitalSchema);

@@ -1,7 +1,7 @@
 import HttpException from '@/api/common/exceptions/http.exception';
 import mongoose from "mongoose";
-import { AdminRepository } from "@/api/admin/repository/admin.repository";
-import { AdminService } from "@/api/admin/service/admin.service.type";
+import { AdminRepository } from "@/api/hospital/repository/admin.repository";
+import { AdminService } from "@/api/hospital/service/admin.service.type";
 
 export class AdminServiceImpl implements AdminService {
     constructor(

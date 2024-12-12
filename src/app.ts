@@ -5,8 +5,8 @@ import cookieParser from "cookie-parser";
 
 import { ROUTES_INDEX } from "@/api/index";
 
-import hospitalRouter from "./api/hospiatl/router/hospital.router";
-import adminRouter from "@/api/admin/router/admin.router";
+import hospitalRouter from "./api/hospital/router/hospital.router";
+// import adminRouter from "@/api/hospital/router/admin.router";
 
 const app = express();
 const port = process.env.PORT || 6000;
@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 
 
 app.use(ROUTES_INDEX.HOSPITAL_API, hospitalRouter);
-app.use(ROUTES_INDEX.ADMIN_API, adminRouter);
+// app.use(ROUTES_INDEX.ADMIN_API, adminRouter);
 
 
 app.listen(port, () => {

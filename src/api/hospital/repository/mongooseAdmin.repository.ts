@@ -1,5 +1,5 @@
-import { AdminRepository } from "@/api/admin/repository/admin.repository"
-import { MongooseAdmin } from "@/api/admin/model/admin.schema"
+import { AdminRepository } from "@/api/hospital/repository/admin.repository"
+import { MongooseAdmin } from "@/api/hospital/model/admin.schema"
 
 export class MongooseAdminRepository implements AdminRepository {
     async signup(admin: Omit<IAdmin, "id">): Promise<IAdmin> {

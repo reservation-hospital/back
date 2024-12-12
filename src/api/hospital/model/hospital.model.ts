@@ -1,17 +1,18 @@
 export default class Hospital implements IHospital {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-  address: string;
-  phone: string;
-  website: string | null;
-  thumbnail: string;
-  latitude: string;
-  longitude: string;
-  description: string;
+  id: String;
+  name: String;
+  email: String;
+  password: String;
+  address: String;
+  phone: String;
+  website: String | null;
+  thumbnail: String;
+  latitude: String;
+  longitude: String;
+  description: String;
   status: "ACTIVE" | "INACTIVE";
   // products: IProduct[];
+
   constructor(data: IHospital) {
     this.id = data.id;
     this.name = data.name;

@@ -5,7 +5,7 @@ export class getHospitalResponseDTO {
   password: string;
   address: string;
   phone: string;
-  website: string | null;
+  website?: string | null;
   thumbnail?: string;
   latitude: string;
   longitude: string;
