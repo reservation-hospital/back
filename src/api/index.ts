@@ -7,8 +7,12 @@ const ADMIN_ROUTES = {
 const HOSPITAL_ROUTES = {
   HOSPITAL_API: "/api/hospital",
 };
+const PRODUCT_ROUTES = {
+  PRODUCT_API: "/api/product",
+};
 
 export const ROUTES_INDEX = {
   ...ADMIN_ROUTES,
   ...HOSPITAL_ROUTES,
+  ...PRODUCT_ROUTES,
 } as const;

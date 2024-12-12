@@ -1,12 +1,12 @@
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import path from "node:path";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 
 import { ROUTES_INDEX } from "@/api/index";
 
-import hospitalRouter from "./api/hospiatl/router/hospital.router";
 import adminRouter from "@/api/admin/router/admin.router";
+import prodcutRouter from "./api/product/router/product.router";
 
 const app = express();
 const port = process.env.PORT || 6000;
@@ -18,10 +18,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 
-
-app.use(ROUTES_INDEX.HOSPITAL_API, hospitalRouter);
+/** admin(hostpital) router */
 app.use(ROUTES_INDEX.ADMIN_API, adminRouter);
-
+/** product router */
+app.use(ROUTES_INDEX.PRODUCT_API, prodcutRouter);
 
 app.listen(port, () => {
   console.log(`SERVER started at http://localhost:${port} ^-^`);
