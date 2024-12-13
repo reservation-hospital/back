@@ -1,22 +1,32 @@
-// import { HospitalRepository } from "@/api/hospital/repository/hospital.repository";
-// import { MongooseHospital } from "@/api/hospital/model/hospital.schema";
+import { HospitalRepository } from "@/api/hospital/repository/hospital.repository";
+import { MongooseHospital } from "@/api/hospital/model/hospital.schema";
 
-// export class MongooseHospitalRepository implements HospitalRepository {
-//     async createHospital(params: Omit<IHospital, "id" | "status">): Promise<IHospital> {
-//         const newHospital = new MongooseHospital(params);
-//         await newHospital.save();
-//         return newHospital;
-//     }
-    
-//     async loginHospital(email: string, password: string): Promise<void> {}
+export class MongooseHospitalRepository implements HospitalRepository {
+    async createHospital(hospital: Omit<IHospital, "id" | "status">): Promise<IHospital> {
+        const newHospital = new MongooseHospital(hospital);
 
-//     async logoutHospital(hospitalId: string): Promise<void> {}
+        await newHospital.save();
+        
+        return newHospital;
+    }
 
-//     async getHospital(hospitalId: string): Promise<IHospital> {
-//         return MongooseHospital.findById(hospitalId);
-//     }
+    async findAll(): Promise<IHospital[]> {
+        const values = await MongooseHospital.find();
 
-//     async updateHospital(hospitalId: string, params: Omit<IHospital, "id" | "status">): Promise<void> {
-//         await MongooseHospital.findByIdAndUpdate(hospitalId, params);
-//     }
-// }
+        return values;
+    }
+
+    async findByEmail(email: string): Promise<IHospital | null> {
+        const findHospital = await MongooseHospital.findOne({email});
+
+        return findHospital ?? null
+    }
+
+    async findById(hospitalId: string): Promise<IHospital | null> {
+        return MongooseHospital.findById(hospitalId);
+    }
+
+    async updateHospital(hospitalId: string, params: Omit<IHospital, "id" | "status">): Promise<void> {
+        await MongooseHospital.findByIdAndUpdate(hospitalId, params);
+    }
+}

@@ -1,10 +1,16 @@
 import express from "express";
-import { extractPath } from "@/utils/path.util";
 import HospitalController from "@/api/hospital/controller/hospital.controller";
+import { MongooseHospitalRepository } from "@/api/hospital/repository/mongooseHospital.repository";
+import { HospitalServiceImpl } from "@/api/hospital/service/hospital.service";
+import { extractPath } from "@/utils/path.util";
 import { ROUTES_INDEX } from "@/api";
 
 const hospitalRouter = express.Router();
-const hospitalController = new HospitalController();
+const hospitalController = new HospitalController(
+  new HospitalServiceImpl(
+    new MongooseHospitalRepository()
+  )
+);
 
 const HOSPITAL_ROUTER = {
   /** 병원 가입 */

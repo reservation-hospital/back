@@ -1,29 +1,28 @@
-export class getHospitalResponseDTO {
-  id?: string;
+// 병원 가입 DTO
+export class HospitalResponseDTO {
   name: string;
   email: string;
   password: string;
   address: string;
   phone: string;
-  website?: string | null;
+  website?: string;
   thumbnail?: string;
   latitude: string;
   longitude: string;
   description: string;
   status?: "ACTIVE" | "INACTIVE";
 
-  constructor(params: IHospital) {
-    this.id = params.id;
-    this.name = params.name;
-    this.email = params.email;
-    this.password = params.password;
-    this.address = params.address;
-    this.phone = params.phone;
-    this.website = params.website;
-    this.thumbnail = params.thumbnail;
-    this.latitude = params.latitude;
-    this.longitude = params.longitude;
-    this.description = params.description;
-    this.status = params.status;
+  constructor(hospital: IHospital) {
+    this.name = hospital.name;
+    this.email = hospital.email;
+    this.password = hospital.password;
+    this.address = hospital.address;
+    this.phone = hospital.phone;
+    this.website = hospital.website;
+    this.thumbnail = hospital.thumbnail;
+    this.latitude = hospital.latitude;
+    this.longitude = hospital.longitude;
+    this.description = hospital.description;
+    this.status = hospital.status;
   }
 }

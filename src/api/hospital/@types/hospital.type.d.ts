@@ -1,5 +1,5 @@
 /** admin / hospital 역할 구분 */
-type RoleType = "admin" | "hostpital";  
+type RoleType = "hospital" | "admin";  
 
 interface IAdmin {
     /** 관리자 ID */
@@ -16,7 +16,7 @@ interface IAdmin {
     hospital: IHospital;
   }
 
-type IHospital = {
+interface IHospital {
     /** 병원 id */
     id: string;
     /** 병원 이름 */
@@ -30,7 +30,7 @@ type IHospital = {
     /** 병원 전화번호 */
     phone: string;
     /** 병원 홈페이지 */
-    website: string | null;
+    website?: string;
     /** 병원 썸네일 */
     thumbnail: string;
     /** 병원 위도 */

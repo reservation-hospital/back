@@ -1,6 +1,15 @@
 import { Request, Response, NextFunction } from "express";
+import { HospitalService } from "@/api/hospital/service/hospital.service.type";
 
 export default class HospitalController {
+constructor(private readonly _hospitalService: HospitalService) {
+  this.createHospital = this.createHospital.bind(this);
+  this.loginHospital = this.loginHospital.bind(this);
+  this.logoutHospital = this.logoutHospital.bind(this);
+  this.getHospital = this.getHospital.bind(this);
+  this.updateHospital = this.updateHospital.bind(this);
+}
+
   /** 병원 가입 */
   async createHospital(req: Request, res: Response, next: NextFunction) {
     res.send("create hostpital");
