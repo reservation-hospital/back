@@ -1,6 +1,7 @@
 interface IProduct {
-  id: sintrg;
+  id?: sintrg;
   name: string;
   price: number;
   description: string;
+  selective?: string[];
 }

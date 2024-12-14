@@ -3,17 +3,20 @@ import express from "express";
 import ProductController from "../controller/product.controller";
 import { extractPath } from "@/utils/path.util";
 import { ROUTES_INDEX } from "@/api";
-
+import { ProductServiceImpl } from "../service/product.service";
+import { MongooseProductRepository } from "../ropository/mongooseProduct.repository";
 const prodcutRouter = express.Router();
 
-const productController = new ProductController();
+const productController = new ProductController(
+  new ProductServiceImpl(new MongooseProductRepository())
+);
 
 const PRODUCT_ROUTES = {
   GET_PRODUCTS: "/api/product",
   GET_PRODUCT: "/api/product/:productId",
   CREATE_PRODUCT: "/api/product",
-  UPDATE_PRODUCT: "/api/product",
-  DELETE_PRODUCT: "/api/product",
+  UPDATE_PRODUCT: "/api/product/:productId",
+  DELETE_PRODUCT: "/api/product/:productId",
 };
 
 prodcutRouter.get(

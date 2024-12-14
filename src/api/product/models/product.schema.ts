@@ -5,14 +5,16 @@ interface IProduct extends Document {
   name: string;
   price: number;
   description: string;
+  selective: string[];
 }
 
 const ProductSchema: Schema = new Schema(
   {
-    id: { type: String, required: true, unique: true },
+    id: { type: String, unique: true },
     name: { type: String, required: true },
     price: { type: Number, required: true },
     description: { type: String, required: true },
+    selective: { type: [String] },
   },
   { timestamps: true }
 );

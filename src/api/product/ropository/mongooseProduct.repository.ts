@@ -1,9 +1,12 @@
 import { ProductRepository } from "./product.repository";
 import mongooseProduct from "../models/product.schema";
 import { Product } from "../models/product.model";
+import { Http2ServerRequest } from "http2";
+import HttpException from "@/api/common/exceptions/http.exception";
 
 export class MongooseProductRepository implements ProductRepository {
   async createProduct(params: Omit<IProduct, "id">): Promise<Product> {
+    console.log("repository", params);
     const newProduct = await new mongooseProduct(params);
     const product = newProduct.save();
     return product;
@@ -11,12 +14,14 @@ export class MongooseProductRepository implements ProductRepository {
 
   async getProducts(): Promise<Product[]> {
     const products = await mongooseProduct.find();
+    if (!products) throw new HttpException(404, "상품을 찾을 수 없습니다.");
     return products;
   }
 
   async getProductById(productId: string): Promise<Product | null> {
     const product = mongooseProduct.findById(productId);
-    return product || null;
+    if (!product) throw new HttpException(404, "상품을 찾을 수 없습니다.");
+    return product;
   }
 
   async updateProduct(
@@ -25,15 +30,17 @@ export class MongooseProductRepository implements ProductRepository {
   ): Promise<void> {
     const findProduct = await mongooseProduct.findById(productId);
     if (!findProduct) {
-      await mongooseProduct.findByIdAndUpdate(productId, params);
+      throw new HttpException(404, "상품을 찾을 수 없습니다.");
     }
+    await mongooseProduct.findByIdAndUpdate(productId, params);
     return;
   }
   async deleteProduct(productId: string): Promise<void> {
     const findProduct = await mongooseProduct.findById(productId);
-    if (findProduct) {
-      await mongooseProduct.findByIdAndDelete(productId);
-      return;
+    if (!findProduct) {
+      throw new HttpException(404, "상품을 찾을 수 없습니다.");
     }
+    await mongooseProduct.findByIdAndDelete(productId);
+    return;
   }
 }
