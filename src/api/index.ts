@@ -4,6 +4,7 @@ const ADMIN_ROUTES = {
   ADMIN_API: "/api/admin",
 } as const;
 
+/** 병원 라우터 */
 const HOSPITAL_ROUTES = {
   HOSPITAL_API: "/api/hospital",
 };

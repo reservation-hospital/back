@@ -13,12 +13,12 @@
 // 선택 상품 등록 - createSelectProduct
 // 선택 상품 삭제 - deleteSelectProduct
 
-import { NextFunction, Request, Response } from "express";
-import { AdminService } from "@/api/admin/service/admin.service.type";
+// import { NextFunction, Request, Response } from "express";
+// import { AdminService } from "@/api/hospital/service/admin.service.type";
 
-export default class AdminController {
-    constructor(private _adminService: AdminService) {
-        this.signup = this.signup.bind(this);
+// export default class AdminController {
+//     constructor(private _adminService: AdminService) {
+//         this.signup = this.signup.bind(this);
         // this.logout = this.logout.bind(this);
 
         // this.getHospitals = this.getHospitals.bind(this);
@@ -33,23 +33,23 @@ export default class AdminController {
         // this.getSelectProducts = this.getSelectProducts.bind(this);
         // this.createSelectProduct = this.createSelectProduct.bind(this);
         // this.deleteSelectProduct = this.deleteSelectProduct.bind(this);
-      }
+    //   }
 
-    async signup(
-        req: Request,
-        res: Response
-    ) {
-        try {
-            await this._adminService.signup({
-                loginId: req.body.loginId,
-                password: req.body.password,
-                name: req.body.name,
-            });
-            res.status(201).json({ message: '회원가입 성공'});
-        } catch (error) {
-            res.status(400).json({ message: "회원가입 실패" });
-        }
-    }
+    // async signup(
+    //     req: Request,
+    //     res: Response
+    // ) {
+    //     try {
+    //         await this._adminService.signup({
+    //             loginId: req.body.loginId,
+    //             password: req.body.password,
+    //             name: req.body.name,
+    //         });
+    //         res.status(201).json({ message: '회원가입 성공'});
+    //     } catch (error) {
+    //         res.status(400).json({ message: "회원가입 실패" });
+    //     }
+    // }
     // async login()
     // async logout()
 
@@ -65,4 +65,4 @@ export default class AdminController {
     // async getSelectProducts()
     // async createSelectProduct()
     // async deleteSelectProduct()
-}
+// }
