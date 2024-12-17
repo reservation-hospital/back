@@ -5,8 +5,10 @@ import cookieParser from "cookie-parser";
 
 import { ROUTES_INDEX } from "@/api/index";
 
-import productRouter from "./api/product/router/product.router";
 import adminRouter from "@/api/admin/router/admin.router";
+import productRouter from "./api/product/router/product.router";
+import selectProductRouter from "./api/selectProduct/router/selectProduct.router";
+import orderRouter from "./api/order/router/order.router";
 import errorHandler from "./api/common/middleware/errorHandler.middleware"; //errorhandler
 
 const app = express();
@@ -23,6 +25,10 @@ app.use(express.urlencoded({ extended: false }));
 /** product router */
 app.use(ROUTES_INDEX.PRODUCT_API, productRouter);
 app.use(ROUTES_INDEX.ADMIN_API, adminRouter);
+/** select product router */
+app.use(ROUTES_INDEX.SELECT_PRODUCT_API, selectProductRouter);
+/** order router */
+app.use(ROUTES_INDEX.ORDER_API, orderRouter);
 
 app.use(errorHandler);
 
