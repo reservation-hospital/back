@@ -1,68 +1,86 @@
-// [관리자]
-// 로그아웃 - logout
-
-// 병원 목록 조회 - getHospitals
-// 병원 상세 조회 - getHospital
-// 병원 생성 - createHospital
-// 병원 삭제 - deleteHospital
-
-// 예약 목록 조회 - getOrders
-// 예약 상세 조회 - getOrder
-
-// 선택 상품 조회 - getSelectProducts
-// 선택 상품 등록 - createSelectProduct
-// 선택 상품 삭제 - deleteSelectProduct
-
 import { NextFunction, Request, Response } from "express";
 import { AdminService } from "@/api/admin/service/admin.service.type";
 
 export default class AdminController {
-    constructor(private _adminService: AdminService) {
-        this.signup = this.signup.bind(this);
-        // this.logout = this.logout.bind(this);
+  constructor(private _adminService: AdminService) {
+    this.signup = this.signup.bind(this);
+    this.login = this.login.bind(this);
+    this.logout = this.logout.bind(this);
+    this.getAdmins = this.getAdmins.bind(this);
+    this.getAdmin = this.getAdmin.bind(this);
+    this.updateAdmin = this.updateAdmin.bind(this);
+    this.deleteAdmin = this.deleteAdmin.bind(this);
+  }
 
-        // this.getHospitals = this.getHospitals.bind(this);
-        // this.getHospital = this.getHospital.bind(this);
-        // this.createHospital = this.createHospital.bind(this);
-        // this.updateHospital = this.updateHospital.bind(this);
-        // this.deleteHospital = this.deleteHospital.bind(this);
+  async signup(req: Request, res: Response, next: NextFunction) {
+    try {
+      const admin = await this._adminService.signUp({
+        email: req.body.email,
+        password: req.body.password,
+        name: req.body.name,
+        role: req.body.role,
+        hospital: req.body.hospital,
+      });
 
-        // this.getOrders = this.getOrders.bind(this);
-        // this.getOrder = this.getOrder.bind(this);
-
-        // this.getSelectProducts = this.getSelectProducts.bind(this);
-        // this.createSelectProduct = this.createSelectProduct.bind(this);
-        // this.deleteSelectProduct = this.deleteSelectProduct.bind(this);
-      }
-
-    async signup(
-        req: Request,
-        res: Response
-    ) {
-        try {
-            await this._adminService.signup({
-                loginId: req.body.loginId,
-                password: req.body.password,
-                name: req.body.name,
-            });
-            res.status(201).json({ message: '회원가입 성공'});
-        } catch (error) {
-            res.status(400).json({ message: "회원가입 실패" });
-        }
+      res.status(201).json({ message: "회원가입 성공", data: admin });
+    } catch (error) {
+      next(error);
     }
-    // async login()
-    // async logout()
+  }
+  async login(req: Request, res: Response, next: NextFunction) {
+    try {
+      const token = await this._adminService.login(
+        req.body.email,
+        req.body.password
+      );
+      res.status(200).json({ message: "seccees", token });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async logout(req: Request, res: Response, next: NextFunction) {
+    try {
+      await this._adminService.logout(req.body.id);
+      res.status(200).json({ message: "로그아웃 성공" });
+    } catch (error) {
+      next(error);
+    }
+  }
 
-    // async getHospitals()
-    // async getHospital()
-    // async createHospital()
-    // async updateHospital()
-    // async deleteHospital()
-
-    // async getOrders()
-    // async getOrder()
-
-    // async getSelectProducts()
-    // async createSelectProduct()
-    // async deleteSelectProduct()
+  async getAdmins(req: Request, res: Response, next: NextFunction) {
+    try {
+      const admins = await this._adminService.getAdmins();
+      res.status(200).json(admins);
+    } catch (error) {
+      next(error);
+    }
+  }
+  async getAdmin(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params;
+    console.log(req.params);
+    try {
+      const admin = await this._adminService.getAdmin(id);
+      res.status(200).json(admin);
+    } catch (error) {
+      next(error);
+    }
+  }
+  async updateAdmin(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params;
+    try {
+      await this._adminService.updateAdmin(id, req.body);
+      res.status(200).json({ message: "관리자 수정 성공" });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async deleteAdmin(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params;
+    try {
+      await this._adminService.deleteAdmin(id);
+      res.status(200).json({ message: "관리자 삭제 성공" });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

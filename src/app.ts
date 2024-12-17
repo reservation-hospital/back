@@ -8,6 +8,7 @@ import { ROUTES_INDEX } from "@/api/index";
 import adminRouter from "@/api/admin/router/admin.router";
 import prodcutRouter from "./api/product/router/product.router";
 import errorHandler from "./api/common/middleware/errorHandler.middleware"; //errorhandler
+import hospitalRouter from "./api/admin/router/hospital.router";
 
 const app = express();
 const port = process.env.PORT || 6000;
@@ -23,6 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(ROUTES_INDEX.ADMIN_API, adminRouter);
 /** product router */
 app.use(ROUTES_INDEX.PRODUCT_API, prodcutRouter);
+app.use(ROUTES_INDEX.HOSPITAL_API, hospitalRouter);
 
 app.use(errorHandler);
 

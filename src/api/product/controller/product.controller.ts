@@ -14,12 +14,13 @@ export default class ProductController {
   }
   async createProduct(req: Request, res: Response, next: NextFunction) {
     try {
-      const { name, price, description, selective } = req.body;
+      const { name, price, description, selective, hospital } = req.body;
       const newProduct = await this._productService.createProduct({
         name,
         price,
         description,
         selective,
+        hospital,
       });
       res
         .status(201)
@@ -49,12 +50,13 @@ export default class ProductController {
     try {
       const { productId } = req.params;
       console.log("controller", productId);
-      const { name, price, description, selective } = req.body;
+      const { name, price, description, selective, hospital } = req.body;
       await this._productService.updateProduct(productId, {
         name,
         price,
         description,
         selective,
+        hospital,
       });
       res.status(200).json({ message: "상품이 수정되었습니다." });
     } catch (err) {

@@ -4,4 +4,5 @@ interface IProduct {
   price: number;
   description: string;
   selective?: string[];
+  hospital: string;
 }

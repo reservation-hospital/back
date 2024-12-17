@@ -1,19 +1,26 @@
 export class Admin implements IAdmin {
-    id: string;
-    loginId: string;
-    password?: string;
-    name: string;
-    // hospital: IHospital[];
-    // order: IOrder[];
-    // selectProduct: ISelectProduct[];
-
-    constructor(params: IAdmin) {
-        this.id = params.id;
-        this.loginId = params.loginId;
-        this.password = params.password;
-        this.name = params.name;
-        // this.hospital = params.hospital;
-        // this.order = params.order;
-        // this.selectProduct = params.selectProduct;
-    }
+  id?: string;
+  email: string;
+  password: string;
+  name: string;
+  role: "admin" | "hospital";
+  hospital?:
+    | hospital
+    | {
+        name: string;
+        address: string;
+        latitude: number;
+        longitude: number;
+        businessNumber: string;
+        status: "active" | "inactive";
+        product: IProduct[];
+      };
+  constructor(params: IAdmin) {
+    this.id = params.id;
+    this.email = params.email;
+    this.password = params.password;
+    this.name = params.name;
+    this.role = params.role ?? "hospital";
+    this.hospital = params.hospital;
+  }
 }

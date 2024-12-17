@@ -31,9 +31,10 @@ export class ProductServiceImpl implements ProductService {
     productId: string,
     product: ProductResponseDTO
   ): Promise<void> {
-    const productToUpdate: Omit<IProduct, "id"> = await {
+    const productToUpdate: Omit<IProduct, "id"> = {
       ...product,
       description: product.description || "",
+      hospital: product.hospital,
     };
     await this._productRepository.updateProduct(productId, productToUpdate);
 
