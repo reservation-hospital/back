@@ -9,8 +9,8 @@ export class Admin implements IAdmin {
     | {
         name: string;
         address: string;
-        latitude: number;
-        longitude: number;
+        latitude: string;
+        longitude: string;
         businessNumber: string;
         status: "active" | "inactive";
         product: IProduct[];
