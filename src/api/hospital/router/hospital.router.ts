@@ -6,6 +6,7 @@ import { extractPath } from "@/utils/path.util";
 import { ROUTES_INDEX } from "@/api";
 
 const hospitalRouter = express.Router();
+
 const hospitalController = new HospitalController(
   new HospitalServiceImpl(
     new MongooseHospitalRepository()
@@ -25,7 +26,7 @@ const HOSPITAL_ROUTER = {
   UPDATE_HOSPITAL: "/api/hospital/:hospitalId",
 } as const;
 
-/** 회원 가입 */
+/** 병원 가입 */
 hospitalRouter.post(
   extractPath(HOSPITAL_ROUTER.SIGN_UP, ROUTES_INDEX.HOSPITAL_API),
   hospitalController.createHospital

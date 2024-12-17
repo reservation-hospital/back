@@ -24,4 +24,4 @@ const hospitalSchema = new mongoose.Schema(
  }
 );
 
-export const MongooseHospital = mongoose.model<IHospital>("hospitals", hospitalSchema);
+export const MongooseHospital = mongoose.model<IHospital>("Hospital", hospitalSchema);
