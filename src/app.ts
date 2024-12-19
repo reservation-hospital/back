@@ -21,9 +21,9 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 
-/** admin(hostpital) router */
 /** product router */
 app.use(ROUTES_INDEX.PRODUCT_API, productRouter);
+/** admin(hospital) router */
 app.use(ROUTES_INDEX.ADMIN_API, adminRouter);
 /** select product router */
 app.use(ROUTES_INDEX.SELECT_PRODUCT_API, selectProductRouter);
