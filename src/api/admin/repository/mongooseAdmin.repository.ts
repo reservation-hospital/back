@@ -7,22 +7,7 @@ export class MongooseAdminRepository implements AdminRepository {
     const newAdmin = new MongooseAdmin(admin);
     await newAdmin.save();
     return newAdmin;
-  }
-  async login(email: string): Promise<IAdmin> {
-    const admin = await MongooseAdmin.findOne({ email });
-    if (!admin) {
-      throw new HttpException(404, "해당 유저를 찾을 수 없습니다.");
-    }
-    return admin;
-  }
-  async logout(id: string): Promise<void> {
-    const admin = await MongooseAdmin.findById(id);
-    if (!admin) {
-      throw new HttpException(404, "해당 유저를 찾을 수 없습니다.");
-    }
-    // 로그아웃 수정
-    return;
-  }
+  }  
   async getAdmins(): Promise<IAdmin[]> {
     const admins = await MongooseAdmin.find();
     return admins;
@@ -73,5 +58,10 @@ export class MongooseAdminRepository implements AdminRepository {
       throw new HttpException(404, "해당 유저를 찾을 수 없습니다.");
     }
     return;
+  }
+  async findByEmail(email: string): Promise<IAdmin | null> {
+    const findAdmin = await MongooseAdmin.findOne({email});
+
+    return findAdmin ?? null;
   }
 }

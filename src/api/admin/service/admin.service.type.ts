@@ -1,7 +1,5 @@
 export interface AdminService {
-  signUp: (admin: IAdmin) => Promise<IAdmin>;
-  login: (email: string, password: string) => Promise<IAdmin>;
-  logout: (id: string) => Promise<void>;
+  signUp: (admin: IAdmin) => Promise<IAdmin>;  
   getAdmins: () => Promise<IAdmin[]>;
   getAdmin: (id: string) => Promise<IAdmin>;
   updateAdmin: (id: string, admin: IAdmin) => Promise<IAdmin>;

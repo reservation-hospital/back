@@ -1,6 +1,5 @@
 import express from "express";
 import HospitalController from "@/api/admin/controller/hospital.controller";
-
 import { ROUTES_INDEX } from "@/api/index";
 import { extractPath } from "@/utils/path.util";
 

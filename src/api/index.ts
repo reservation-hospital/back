@@ -23,10 +23,16 @@ const ORDER_ROUTES = {
   ORDER_API: "/api/order",
 } as const;
 
+/** 인증 라우터 */
+const AUTH_ROUTES = {
+  AUTH_API: "/api/auth",
+}
+
 export const ROUTES_INDEX = {
   ...ADMIN_ROUTES,
   ...HOSPITAL_ROUTES,
   ...PRODUCT_ROUTES,
   ...SELECT_PRODUCT_ROUTES,
   ...ORDER_ROUTES,
+  ...AUTH_ROUTES,
 } as const;
