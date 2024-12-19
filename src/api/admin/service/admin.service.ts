@@ -20,26 +20,7 @@ export class AdminServiceImpl implements AdminService {
       role: "hospital",
     });
     return newAdmin;
-  }
-
-  async login(email: string, password: string): Promise<IAdmin> {
-    const admin = await this._mongooseAdminRepository.login(email);
-    console.log(admin);
-    if (!admin) {
-      throw new HttpException(401, "해당 유저는 존재하지 않습니다.");
-    }
-
-    const isPasswordMatch = await bcrypt.compare(password, admin.password);
-    console.log(isPasswordMatch);
-    if (!isPasswordMatch) {
-      throw new HttpException(401, "비밀번호가 일치하지 않습니다.");
-    }
-    return admin;
-  }
-  async logout(id: string): Promise<void> {
-    await this._mongooseAdminRepository.logout(id);
-    return;
-  }
+  }  
   async getAdmins(): Promise<IAdmin[]> {
     const admins = await this._mongooseAdminRepository.getAdmins();
     return admins;
