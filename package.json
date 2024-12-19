@@ -30,6 +30,7 @@
   "dependencies": {
     "@faker-js/faker": "^9.0.0",
     "autobind-decorator": "^2.4.0",
+    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",

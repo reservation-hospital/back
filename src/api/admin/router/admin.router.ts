@@ -14,10 +14,6 @@ const adminController = new AdminController(
 const ADMIN_ROUTES = {
   /** 회원가입 */
   SIGN_UP: `/api/admin`,
-  /** 로그인 */
-  LOGIN: `/api/admin/login`,
-  /** 로그아웃 */
-  LOGOUT: `/api/admin/logout`,
   /** 관리자 전체 조회 */
   GET_ADMINS: `/api/admin/`,
   /** 관리자 조회 */
@@ -31,14 +27,6 @@ const ADMIN_ROUTES = {
 adminRouter.post(
   extractPath(ADMIN_ROUTES.SIGN_UP, ROUTES_INDEX.ADMIN_API),
   adminController.signup
-);
-adminRouter.post(
-  extractPath(ADMIN_ROUTES.LOGIN, ROUTES_INDEX.ADMIN_API),
-  adminController.login
-);
-adminRouter.post(
-  extractPath(ADMIN_ROUTES.LOGOUT, ROUTES_INDEX.ADMIN_API),
-  adminController.logout
 );
 adminRouter.get(
   extractPath(ADMIN_ROUTES.GET_ADMINS, ROUTES_INDEX.ADMIN_API),

@@ -4,8 +4,6 @@ import { AdminService } from "@/api/admin/service/admin.service.type";
 export default class AdminController {
   constructor(private _adminService: AdminService) {
     this.signup = this.signup.bind(this);
-    this.login = this.login.bind(this);
-    this.logout = this.logout.bind(this);
     this.getAdmins = this.getAdmins.bind(this);
     this.getAdmin = this.getAdmin.bind(this);
     this.updateAdmin = this.updateAdmin.bind(this);
@@ -27,26 +25,6 @@ export default class AdminController {
       next(error);
     }
   }
-  async login(req: Request, res: Response, next: NextFunction) {
-    try {
-      const token = await this._adminService.login(
-        req.body.email,
-        req.body.password
-      );
-      res.status(200).json({ message: "seccees", token });
-    } catch (error) {
-      next(error);
-    }
-  }
-  async logout(req: Request, res: Response, next: NextFunction) {
-    try {
-      await this._adminService.logout(req.body.id);
-      res.status(200).json({ message: "로그아웃 성공" });
-    } catch (error) {
-      next(error);
-    }
-  }
-
   async getAdmins(req: Request, res: Response, next: NextFunction) {
     try {
       const admins = await this._adminService.getAdmins();
