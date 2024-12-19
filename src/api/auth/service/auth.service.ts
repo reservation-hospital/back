@@ -36,13 +36,16 @@ export class AuthServiceImpl implements AuthService {
   async login(email: string, password: string): Promise<string> {
     const findAdmin = await this._adminRepository.findByEmail(email);
 
+    // console.log(findAdmin);
+
     if (!findAdmin) {
       console.log("존재하지 않는 회원입니다.")
       throw new HttpException(404, "존재하지 않는 회원입니다.");
     }    
+
+    const plainPassword = password;
     
-    // const saltedPassword = await bcrypt.hash(password, 12);
-    const isSamePassword = await bcrypt.compare(password, findAdmin.password);
+    const isSamePassword = bcrypt.compare(plainPassword, findAdmin.password);
 
     if (!isSamePassword) {
       throw new HttpException(401, "비밀번호가 일치하지 않습니다.");
