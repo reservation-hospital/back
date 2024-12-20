@@ -19,14 +19,14 @@ export default class AuthController {
         email: req.body.email,
         password: saltedPassword,
         name: req.body.name,
-      })
+      });
 
       res.status(201).json({
         message: "회원가입 성공",
         data: admin,
       });
     } catch (error) {
-      res.status(500).json({ message: "회원가입 실패" });
+      next(error);
     }
   }
 
@@ -41,17 +41,17 @@ export default class AuthController {
         data: result,
       });
     } catch (error) {
-      res.status(500).json({ message: "로그인 실패" });
+      next(error);
     }
   }
 
   async logout(req: Request, res: Response, next: NextFunction) {
-    try{
-      res.clearCookie('accessToken',{path:'/'})
-      res.status(200).send('로그아웃 성공')
-     // res.redirect('/')
-    }catch(error){
-      next(error)
+    try {
+      res.clearCookie("accessToken", { path: "/" });
+      res.status(200).send("로그아웃 성공");
+      // res.redirect('/')
+    } catch (error) {
+      next(error);
     }
   }
 }
