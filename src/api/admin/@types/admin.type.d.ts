@@ -1,6 +1,8 @@
+type role = "admin" | "hospital";
+
 interface IAdmin {
   /** ID */
-  id?: string;
+  id: string;
   /** 아이디 */
   email: string;
   /** 비밀번호 */
@@ -10,21 +12,21 @@ interface IAdmin {
   /** 이름 */
   name: string;
   /** 병원 */
-  hospital?: hospital;
+  hospital?: IHospital[];
   /** 예약 */
-  // order?: IOrder[];
+  order?: IOrder[];
   /** 선택 상품 */
   // selectProduct?: ISelectProduct[];
 }
 
-type role = "admin" | "hospital";
-
-type hospital = {
+interface IHospital {
   name: string;
   address: string;
   latitude: string;
   longitude: string;
   businessNumber: string;
   status: "active" | "inactive";
-  product: IProduct[];
+  role?: role;
+  order?: IOrder[];
+  // product: IProduct[];
 };

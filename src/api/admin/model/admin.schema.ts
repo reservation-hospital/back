@@ -2,24 +2,20 @@ import mongoose from "@/vendors/mongoose";
 
 const AdminSchema = new mongoose.Schema<IAdmin>(
   {
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     name: { type: String, required: true },
-    role: { type: String, required: true, default: "hospital" },
+    role: { type: String, enum: ["admin", "hospital"], default: "admin" },
     hospital: {
-      name: { type: String },
-      address: { type: String },
-      latitude: { type: String },
-      longitude: { type: String },
-      businessNumber: { type: String },
-      status: { type: String, default: "inactive" },
-      product: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Product",
-        },
-      ],
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Hospital"
     },
+    order: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Order"
+      },
+    ],
   },
   {
     timestamps: true,

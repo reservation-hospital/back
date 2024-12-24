@@ -13,7 +13,7 @@ export default class OrderController {
     /** 주문 생성 */
     async createOrder(req: Request, res: Response, next: NextFunction) {
         try {
-            const order = await this._orderService.createOrder({
+            const order = await this._orderService.createOrder(req.admin.id,{
                 user_name: req.body.name,
                 user_tell: req.body.phone,
                 user_birth: req.body.birth,
@@ -31,6 +31,7 @@ export default class OrderController {
             });
             res.status(200).json(order);
         } catch (error) {
+            console.log(error);
             res.status(409).json({ message: "주문 생성 실패" });
         }
     }
@@ -38,9 +39,10 @@ export default class OrderController {
     /** 주문 수정 */
     async updateOrder(req: Request, res: Response, next: NextFunction) {
         try {      
-            const updateData = { ...req.body };
+            const { orderId } = req.params;
+            const updateData = req.body;
         
-            const order = await this._orderService.updateOrder(req.params.orderId, updateData);
+            const order = await this._orderService.updateOrder(orderId, updateData);
         
               res.status(200).json({
                 message: "주문 수정 성공",

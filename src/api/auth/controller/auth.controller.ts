@@ -26,6 +26,7 @@ export default class AuthController {
         data: admin,
       });
     } catch (error) {
+      console.log(error);
       res.status(500).json({ message: "회원가입 실패" });
     }
   }
