@@ -13,7 +13,7 @@ const orderSchema = new mongoose.Schema(
         reservation_date: { type: Date, required: true },
         reservation_time: { type: String, required: true },
         status: { type: String, enum: ["pending", "success", "cancel"], default: "pending" },
-        // hospital: { type: mongoose.Schema.Types.ObjectId, ref: "Admin" },
+        hospitalId: { type: String },
         // product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
         // select_product: { type: mongoose.Schema.Types.ObjectId, ref: "SelectProduct" },
     },

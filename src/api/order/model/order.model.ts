@@ -11,7 +11,7 @@ export default class Order implements IOrder {
     reservation_date: Date;
     reservation_time: string;
     status?: 'pending' | 'success' | 'cancel';
-    // hospital: IHospital;
+    hospitalId: string;
     // product: IProduct;
     // select_product?: ISelectProduct;
 
@@ -28,7 +28,7 @@ export default class Order implements IOrder {
         this.reservation_date = params.reservation_date;
         this.reservation_time = params.reservation_time;
         this.status = params.status;
-        // this.hospital = params.hospital;
+        this.hospitalId = params.hospitalId;
         // this.product = params.product;
         // this.select_product = params.select_product;
     }
