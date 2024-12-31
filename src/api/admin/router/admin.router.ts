@@ -17,7 +17,7 @@ const ADMIN_ROUTES = {
   /** 회원가입(role = admin, hospital) */
   SIGN_UP: `/api/admin`,
   /** 관리자 전체 조회(role = admin) */
-  GET_ADMINS: `/api/admins`,
+  GET_ADMINS: `/api/admin`,
   /** 관리자 조회(role = admin) */
   GET_ADMIN: `/api/admin/:id`,
   /** 관리자 수정(role = admin) */
@@ -25,17 +25,24 @@ const ADMIN_ROUTES = {
   /** 관리자 삭제(role = admin) */
   DELETE_ADMIN: `/api/admin/:id`,
   /** 병원 목록 조회(role = admin) */
-  GET_HOSPITALS: `/api/admin/hospitals`,
+  GET_HOSPITALS: `/api/admin`,
+  
+  /** 병원 수정(role = hospital) */
+  UPDATE_HOSPITAL: `/api/admin/:id`,
+  /** 병원 삭제(role = hospital) */
+  DELETE_HOSPITAL: `/api/admin/:id`,
+  /** 병원 상세 조회(role = hospital) */
+  GET_HOSPITAL: `/api/admin/:id`,
 };
 
-const HOSPITAL_ROUTES = {
-  /** 병원 수정(role = hospital) */
-  UPDATE_HOSPITAL: `/api/hospital/:id`,
-  /** 병원 삭제(role = hospital) */
-  DELETE_HOSPITAL: `/api/hospital/:id`,
-  /** 병원 상세 조회(role = hospital) */
-  GET_HOSPITAL: `/api/hospital/:id`,
-}
+// const HOSPITAL_ROUTES = {
+//   /** 병원 수정(role = hospital) */
+//   UPDATE_HOSPITAL: `/api/hospital/:id`,
+//   /** 병원 삭제(role = hospital) */
+//   DELETE_HOSPITAL: `/api/hospital/:id`,
+//   /** 병원 상세 조회(role = hospital) */
+//   GET_HOSPITAL: `/api/hospital/:id`,
+// }
 
 /** 회원가입(role = admin, hospital) */
 adminRouter.post(
@@ -84,7 +91,7 @@ adminRouter.get(
 
 /** 병원 수정(role = hospital) */
 adminRouter.put(
-  extractPath(HOSPITAL_ROUTES.UPDATE_HOSPITAL, ROUTES_INDEX.ADMIN_API),
+  extractPath(ADMIN_ROUTES.UPDATE_HOSPITAL, ROUTES_INDEX.ADMIN_API),
   authRoleMiddleware(["hospital"]),
   authAdminMiddleware,
   adminController.updateHospital
@@ -92,7 +99,7 @@ adminRouter.put(
 
 /** 병원 삭제(role = hospital) */
 adminRouter.delete(
-  extractPath(HOSPITAL_ROUTES.DELETE_HOSPITAL, ROUTES_INDEX.ADMIN_API),
+  extractPath(ADMIN_ROUTES.DELETE_HOSPITAL, ROUTES_INDEX.ADMIN_API),
   authRoleMiddleware(["hospital"]),
   authAdminMiddleware,
   adminController.deleteHospital
@@ -100,7 +107,7 @@ adminRouter.delete(
 
 /** 병원 상세 조회(role = hospital) */
 adminRouter.get(
-  extractPath(HOSPITAL_ROUTES.GET_HOSPITAL, ROUTES_INDEX.ADMIN_API),
+  extractPath(ADMIN_ROUTES.GET_HOSPITAL, ROUTES_INDEX.ADMIN_API),
   authRoleMiddleware(["hospital"]),
   authAdminMiddleware,
   adminController.getHospital

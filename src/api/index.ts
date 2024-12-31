@@ -3,10 +3,10 @@ const ADMIN_ROUTES = {
   ADMIN_API: "/api/admin",
 } as const;
 
-/** 병원 라우터 */
-const HOSPITAL_ROUTES = {
-  HOSPITAL_API: "/api/hospital",
-} as const;
+// /** 병원 라우터 */
+// const HOSPITAL_ROUTES = {
+//   HOSPITAL_API: "/api/hospital",
+// } as const;
 
 /** 상품 라우터 */
 const PRODUCT_ROUTES = {
@@ -30,7 +30,7 @@ const AUTH_ROUTES = {
 
 export const ROUTES_INDEX = {
   ...ADMIN_ROUTES,
-  ...HOSPITAL_ROUTES,
+  // ...HOSPITAL_ROUTES,
   ...PRODUCT_ROUTES,
   ...SELECT_PRODUCT_ROUTES,
   ...ORDER_ROUTES,

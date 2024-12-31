@@ -3,7 +3,7 @@ export class Admin implements IAdmin {
   email: string;
   password: string;
   name: string;
-  role: "admin";
+  role?: role;
   hospital?: IHospital[];
   order?: IOrder[];
 
@@ -12,7 +12,8 @@ export class Admin implements IAdmin {
     this.email = params.email;
     this.password = params.password;
     this.name = params.name;
-    this.role = "admin";
+    this.role = params.role;
     this.hospital = params.hospital;
+    this.order = params.order;
   }
 }

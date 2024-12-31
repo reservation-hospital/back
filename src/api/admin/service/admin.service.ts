@@ -54,7 +54,7 @@ export class AdminServiceImpl implements AdminService {
 
   /** 관리자 삭제(role = admin) */
   async deleteAdmin(id: string): Promise<void> {
-    const admin = await this._adminRepository.getAdmin(id);
+    const admin = await this._adminRepository.findById(id);
     if (!admin) {
       throw new HttpException(404, "해당 유저는 존재하지 않습니다.");
     }
@@ -69,11 +69,16 @@ export class AdminServiceImpl implements AdminService {
   }
 
   /** 병원 수정(role = hospital) */
-  async updateHospital(id: string, admin: IAdmin): Promise<IAdmin> {
+  async updateHospital(id: string, hospital: IHospital): Promise<void> {
+    const findHospital = await this._adminRepository.findById(id);
+
+    if (!findHospital) throw new HttpException(404, "병원을 찾을 수 없습니다.");
+
     const updatedHospital = await this._adminRepository.updateHospital(
       id,
-      admin
+      hospital
     );
+
     return updatedHospital;
   }
 
@@ -84,8 +89,11 @@ export class AdminServiceImpl implements AdminService {
   }
 
   /** 병원 상세 조회(role = hospital) */
-  async getHospital(id: string): Promise<IAdmin> {
+  async getHospital(id: string): Promise<IHospital> {
     const hospital = await this._adminRepository.getHospital(id);
+    if (!hospital) {
+      throw new HttpException(404, "병원을 찾을 수 없습니다.");
+    }
     return hospital;
   }
   

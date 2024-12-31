@@ -9,6 +9,7 @@ export default class AdminController {
     this.updateAdmin = this.updateAdmin.bind(this);
     this.deleteAdmin = this.deleteAdmin.bind(this);
     this.getHospitals = this.getHospitals.bind(this);
+
     this.updateHospital = this.updateHospital.bind(this);
     this.deleteHospital = this.deleteHospital.bind(this);
     this.getHospital = this.getHospital.bind(this);
@@ -35,19 +36,26 @@ export default class AdminController {
   async getAdmins(req: Request, res: Response, next: NextFunction) {
     try {
       const admins = await this._adminService.getAdmins();
-      res.status(200).json(admins);
+      res.status(200).json({
+        message: "관리자 회원 목록 조회 성공",
+        data: admins,
+      });
     } catch (error) {
+      res.status(400).json({ message: "관리자 병원 목록 조회 실패" });
       next(error);
     }
   }
 
   /** 관리자 조회(role = admin) */
   async getAdmin(req: Request, res: Response, next: NextFunction) {
-    const { id } = req.params;
-    console.log(req.params);
     try {
+      const { id } = req.params;
       const admin = await this._adminService.getAdmin(id);
-      res.status(200).json(admin);
+
+      res.status(200).json({
+        message: "관리자 상세 조회 성공",
+        data: admin,
+      });
     } catch (error) {
       next(error);
     }
@@ -55,23 +63,28 @@ export default class AdminController {
 
   /** 관리자 수정(role = admin) */
   async updateAdmin(req: Request, res: Response, next: NextFunction) {
-    const { id } = req.params;
     try {
-      await this._adminService.updateAdmin(id, req.body);
-      res.status(200).json({ message: "관리자 수정 성공" });
+      // const { id } = req.params;
+      // await this._adminService.updateAdmin(id, req.body);
+      const admin = await this._adminService.updateAdmin(req.params.id, req.body);
+      res.status(200).json({
+        message: "관리자 수정 성공",
+        data: admin,
+      });
     } catch (error) {
-      next(error);
+      res.status(400).json({ message: "관리자 수정 실패" });
     }
   }
 
   /** 관리자 삭제(role = admin) */
   async deleteAdmin(req: Request, res: Response, next: NextFunction) {
-    const { id } = req.params;
     try {
+      const { id } = req.params;
       await this._adminService.deleteAdmin(id);
       res.status(200).json({ message: "관리자 삭제 성공" });
     } catch (error) {
-      next(error);
+      res.status(404).json({ message: "관리자 삭제 실패" });
+      // next(error);
     }
   }
 
@@ -79,8 +92,12 @@ export default class AdminController {
   async getHospitals(req: Request, res: Response, next: NextFunction) {
     try {
       const hospitals = await this._adminService.getHospitals();
-      res.status(200).json(hospitals);
+      res.status(200).json({
+        message: "관리자 병원 목록 조회 성공",
+        data: hospitals,
+      });
     } catch (error) {
+      res.status(400).json({ message: "관리자 병원 목록 조회 실패" });
       next(error);
     }
   }
@@ -88,11 +105,16 @@ export default class AdminController {
  /** 병원 수정(role = hospital) */
   async updateHospital(req: Request, res: Response, next: NextFunction) {
     try {
-    const { id } = req.params;
-    await this._adminService.updateHospital(id, req.body);
-      res.status(200).json({ message: "병원 수정 성공" });
+    // const { id } = req.params;
+    // await this._adminService.updateHospital(id, req.body);
+    const hospital = await this._adminService.updateHospital(req.params.id, req.body);
+    res.status(200).json({
+      message: "병원 수정 성공",
+      data: hospital,
+    });
     } catch (error) {
-      next(error);
+      res.status(400).json({ message: "병원 수정 실패" });
+      // next(error);
     }
   }
 
@@ -109,12 +131,16 @@ export default class AdminController {
 
   /** 병원 상세 조회(role = hospital) */
   async getHospital(req: Request, res: Response, next: NextFunction) {
-    const { id } = req.params;
     try {
+      const { id } = req.params;
       const hospital = await this._adminService.getHospital(id);
-      res.status(200).json(hospital);
+      res.status(200).json({
+        message: "병원 상세 조회 성공",
+        data: hospital,
+      });
     } catch (error) {
-      next(error);
+      res.status(404).json({ message: "병원 상세 조회 실패" });
+      // next(error);
     }
   }
 }
