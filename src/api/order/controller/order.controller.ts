@@ -24,9 +24,9 @@ export default class OrderController {
                 memo: req.body.memo,
                 reservation_date: req.body.date,
                 reservation_time: req.body.time,
-                // status: req.body.status,
-                // hospital: req.body.hospital,
-                // product: req.body.product,
+                status: req.body.status,
+                // hospitalId: req.body.hospital,
+                // productId: req.body.product,
                 // select_product: req.body.select_product
             });
             res.status(200).json(order);

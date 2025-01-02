@@ -6,14 +6,22 @@ const AdminSchema = new mongoose.Schema<IAdmin>(
     password: { type: String, required: true },
     name: { type: String, required: true },
     role: { type: String, enum: ["admin", "hospital"], default: "admin" },
-    hospital: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Hospital"
-    },
-    order: [
+    hospitals: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Hospital"
+      }
+    ],
+    orders: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Order"
+      },
+    ],
+    selectProducts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "SelectProduct"
       },
     ],
   },

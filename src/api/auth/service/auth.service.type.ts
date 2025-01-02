@@ -1,6 +1,4 @@
 export interface AuthService {
-  /** 회원가입 */
-  signup(params: Omit<IAdmin, "id" | "role">): Promise<IAdmin>;
   /** 로그인 */
   login(email: string, password: string): Promise<string>;
   /** 로그아웃 */

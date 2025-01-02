@@ -11,9 +11,11 @@ export default class Order implements IOrder {
     reservation_date: Date;
     reservation_time: string;
     status?: 'pending' | 'success' | 'cancel';
+    
     hospitalId: string;
-    // product: IProduct;
-    // select_product?: ISelectProduct;
+    hospital: IHospital;
+    product: IProduct;
+    select_product?: ISelectProduct[];
 
     constructor(params: IOrder) {
         this.id = params.id;
@@ -28,8 +30,10 @@ export default class Order implements IOrder {
         this.reservation_date = params.reservation_date;
         this.reservation_time = params.reservation_time;
         this.status = params.status;
+
         this.hospitalId = params.hospitalId;
-        // this.product = params.product;
-        // this.select_product = params.select_product;
+        this.hospital = params.hospital;
+        this.product = params.product;
+        this.select_product = params.select_product;
     }
 }

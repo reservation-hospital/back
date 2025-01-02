@@ -7,9 +7,9 @@ export class Hospital implements IHospital {
     latitude: string;
     longitude: string;
     businessNumber: string;
-    status: "active" | "inactive";
+    status?: "active" | "inactive";
     role?: role;
-    order?: IOrder[];
+    orders?: IOrder[];
   
     constructor(params: IHospital) {
       this.id = params.id;
@@ -22,6 +22,6 @@ export class Hospital implements IHospital {
       this.businessNumber = params.businessNumber;
       this.status = params.status;
       this.role = params.role;
-      this.order = params.order;
+      this.orders = params.orders;
     }
   }

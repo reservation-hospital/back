@@ -1,7 +1,7 @@
 import express from "express";
 import OrderController from "@/api/order/controller/order.controller";
 import { MongooseOrderRepository } from "@/api/order/repository/mongooseOrder.repository";
-import { MongooseAdminRepository } from "@/api/admin/repository/mongooseAdmin.repository";
+import { MongooseHospitalRepository } from "@/api/admin/repository/mongooseHospital.repository";
 import { OrderServiceImpl } from "@/api/order/service/order.service";
 import { extractPath } from "@/utils/path.util";
 import { ROUTES_INDEX } from "@/api";
@@ -10,7 +10,7 @@ const orderRouter = express.Router();
 const orderController = new OrderController(
     new OrderServiceImpl(
         new MongooseOrderRepository(),
-        new MongooseAdminRepository()
+        new MongooseHospitalRepository()
     )
 );
 
