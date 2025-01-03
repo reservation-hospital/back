@@ -9,6 +9,4 @@ export interface AdminService {
   updateAdmin: (id: string, params: Partial<Omit<IAdmin, "id" | "order">>) => Promise<void>;
   /** 관리자 삭제(role = admin) */
   deleteAdmin: (id: string) => Promise<void>;
-  /** 병원 목록 조회(role = admin) */
-  getHospitals: () => Promise<IHospital[]>;
 }

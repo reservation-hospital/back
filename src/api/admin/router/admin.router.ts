@@ -1,8 +1,8 @@
 import AdminController from "@/api/admin/controller/admin.controller";
 import { AdminServiceImpl } from "@/api/admin/service/admin.service";
-import { HospitalServiceImpl } from "@/api/admin/service/hospital.service";
+import { SelectProductServiceImpl } from "@/api/selectProduct/service/selectProduct.service";
 import { MongooseAdminRepository } from "@/api/admin/repository/mongooseAdmin.repository";
-import { MongooseHospitalRepository } from "@/api/admin/repository/mongooseHospital.repository";
+import { MongooseSelectProductRepository } from "@/api/selectProduct/repository/mongooseSelectProduct.repository";
 import express from "express";
 import { extractPath } from "@/utils/path.util";
 import { ROUTES_INDEX } from "@/api/index";
@@ -11,13 +11,17 @@ import { authRoleMiddleware } from "@/api/common/middleware/authRole.middleware"
 
 const adminRouter = express.Router();
 
-const adminRepository = new MongooseAdminRepository();
-const hospitalRepository = new MongooseHospitalRepository();
+const adminService = new AdminServiceImpl(new MongooseAdminRepository());
+const selectProductService = new SelectProductServiceImpl(new MongooseSelectProductRepository());
 
-const adminService = new AdminServiceImpl(adminRepository, hospitalRepository);
-const hospitalService = new HospitalServiceImpl(hospitalRepository);
+const adminController = new AdminController(adminService, selectProductService);
 
-const adminController = new AdminController(adminService, hospitalService);
+// const adminController = new AdminController(
+//   new AdminServiceImpl(
+//     new MongooseAdminRepository(),
+//     new MongooseSelectProductRepository()
+//   ),
+// );
 
 const ADMIN_ROUTES = {
   /** 회원가입(role = admin, hospital) */
@@ -30,8 +34,8 @@ const ADMIN_ROUTES = {
   UPDATE_ADMIN: `/api/admin/:id`,
   /** 관리자 삭제(role = admin) */
   DELETE_ADMIN: `/api/admin/:id`,
-  /** 병원 목록 조회(role = admin) */
-  GET_HOSPITALS: `/api/admin/hospitals`,
+  /** 선택 상품 목록 조회 */
+  GET_SELECT_PRODUCT: `/api/admin/selectProduct`,
 };
 
 /** 회원가입(role = admin, hospital) */
@@ -71,11 +75,12 @@ adminRouter.delete(
   adminController.deleteAdmin
 );
 
-/** 병원 목록 조회(role = admin) */
+/** 선택 상품 목록 조회 */
 adminRouter.get(
-  extractPath(ADMIN_ROUTES.GET_HOSPITALS, ROUTES_INDEX.ADMIN_API),
+  extractPath(ADMIN_ROUTES.GET_SELECT_PRODUCT, ROUTES_INDEX.ADMIN_API),
   authRoleMiddleware(["admin"]),
-  adminController.getHospitals
+  authAdminMiddleware,
+  adminController.getSelectProduct
 );
 
 export default adminRouter;
