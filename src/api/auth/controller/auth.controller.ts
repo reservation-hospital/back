@@ -4,31 +4,8 @@ import bcrypt from "bcryptjs";
 
 export default class AuthController {
   constructor(private readonly _authService: AuthService) {
-    this.signup = this.signup.bind(this);
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
-  }
-
-  async signup(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { password } = req.body;
-
-      const saltedPassword = await bcrypt.hash(password, 12);
-
-      const admin = await this._authService.signup({
-        email: req.body.email,
-        password: saltedPassword,
-        name: req.body.name,
-      });
-
-      res.status(201).json({
-        message: "회원가입 성공",
-        data: admin,
-      });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: "회원가입 실패" });
-    }
   }
 
   async login(req: Request, res: Response, next: NextFunction) {

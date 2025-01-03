@@ -1,6 +1,6 @@
 export interface AdminService {
   /** 회원가입(role = admin, hospital) */
-  signUp: (admin: Omit<IAdmin, "id">) => Promise<IAdmin>;  
+  signUp: (params: Omit<IAdmin, "id" | "role">) => Promise<IAdmin>;  
  /** 관리자 전체 조회(role = admin) */
   getAdmins: () => Promise<IAdmin[]>;
   /** 관리자 조회(role = admin) */
@@ -11,10 +11,4 @@ export interface AdminService {
   deleteAdmin: (id: string) => Promise<void>;
   /** 병원 목록 조회(role = admin) */
   getHospitals: () => Promise<IHospital[]>;
-  /** 병원 수정(role = hospital) */
-  updateHospital: (id: string, admin: IAdmin) => Promise<IAdmin>;
-  /** 병원 삭제(role = hospital) */
-  deleteHospital: (id: string) => Promise<void>;
-  /** 병원 상세 조회(role = hospital) */
-  getHospital: (id: string) => Promise<IAdmin>;
 }

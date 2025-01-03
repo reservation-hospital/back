@@ -12,21 +12,9 @@ interface IAdmin {
   /** 이름 */
   name: string;
   /** 병원 */
-  hospital?: IHospital[];
-  /** 예약 */
-  order?: IOrder[];
-  /** 선택 상품 */
-  // selectProduct?: ISelectProduct[];
+  hospitals?: IHospital[];
+  /** 예약 목록(모든 병원 예약 목록) */
+  orders?: IOrder[];
+  /** 선택 상품 목록 */
+  selectProducts?: ISelectProduct[];
 }
-
-interface IHospital {
-  name: string;
-  address: string;
-  latitude: string;
-  longitude: string;
-  businessNumber: string;
-  status: "active" | "inactive";
-  role?: role;
-  order?: IOrder[];
-  // product: IProduct[];
-};

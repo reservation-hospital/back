@@ -2,14 +2,13 @@ import express from "express";
 import AuthController from "@/api/auth/controller/auth.controller";
 import { AuthServiceImpl } from "@/api/auth/service/auth.service";
 import { MongooseAdminRepository } from "@/api/admin/repository/mongooseAdmin.repository";
+import { MongooseHospitalRepository } from '@/api/admin/repository/mongooseHospital.repository';
 import { extractPath } from "@/utils/path.util";
 import { ROUTES_INDEX } from "@/api/index";
 
 const authRouter = express.Router();
 
 const AUTH_ROUTES = {
-  /** 회원가입 */
-  SIGN_UP: `/api/auth/signup`,
   /** 로그인 */
   LOGIN: `/api/auth/login`,
   /** 로그아웃 */
@@ -17,13 +16,7 @@ const AUTH_ROUTES = {
 } as const;
 
 const authController = new AuthController(
-  new AuthServiceImpl(new MongooseAdminRepository())
-);
-
-/** 회원가입 */
-authRouter.post(
-  extractPath(AUTH_ROUTES.SIGN_UP, ROUTES_INDEX.AUTH_API),
-  authController.signup
+  new AuthServiceImpl(new MongooseAdminRepository(), new MongooseHospitalRepository())
 );
 
 /** 로그인 */

@@ -1,7 +1,7 @@
 import HttpException from '@/api/common/exceptions/http.exception';
 import mongoose from "mongoose";
 import { OrderRepository } from '@/api/order/repository/order.repository';
-import { AdminRepository } from '@/api/admin/repository/admin.repository';
+import { HospitalRepository } from '@/api/admin/repository/hospital.repository';
 import { OrderService } from '@/api/order/service/order.service.type';
 import { OrderResponseDTO } from '@/api/order/dto/orderResponse.dto';
 import { GetOrderResponseDTO } from '@/api/order/dto/getOrderResponse.dto';
@@ -10,20 +10,22 @@ import { GetOrdersResponseDTO } from '@/api/order/dto/getOrdersResponse.dto';
 export class OrderServiceImpl implements OrderService {
     constructor(
         private readonly _orderRepository: OrderRepository,
-        private readonly _adminRepository: AdminRepository
+        private readonly _adminRepository: HospitalRepository
     ) {}
 
-    async createOrder(hospitalId: string, order: Omit<IOrder, "id">): Promise<OrderResponseDTO> {
+    async createOrder(id: string, order: Omit<IOrder, "id" | "hospitalId" | "hospital" | "product" | "select_product">
+    ): Promise<OrderResponseDTO> {        
 
-        const hospital = await this._adminRepository.findById(hospitalId);
+        const hospital = await this._adminRepository.findById(id);
 
             if(!hospital) {
                 throw new HttpException(404, "입력한 병원이 없습니다.");
-            }
+            }            
+
+            // const hospitalInfo: IHospital = hospital.id;
 
             const newOrder: IOrder = {
                 id:"",
-                hospitalId: hospital.id,
                 user_name: order.user_name,
                 user_tell: order.user_tell,
                 user_birth: order.user_birth,
@@ -34,15 +36,19 @@ export class OrderServiceImpl implements OrderService {
                 memo: order.memo,
                 reservation_date: order.reservation_date,
                 reservation_time: order.reservation_time,
-                status: "pending"
+                status: "pending",
+                // hospitalId: hospital.id,
+                // hospital: hospital,
+                // product: order.product,
+                // select_product: order.select_product,
             }
 
             const savedOrder = await this._orderRepository.createOrder(newOrder);
 
-            const updatedOrder = hospital.order ? hospital.order.concat(savedOrder) : [savedOrder];
+            const updatedOrder = hospital.orders ? hospital.orders.concat(savedOrder) : [savedOrder];
 
-            await this._adminRepository.updateAdmin(hospital.id, {
-                order: updatedOrder,
+            await this._adminRepository.updateHospital(hospital.id, {
+                orders: updatedOrder,
             });
 
             return new OrderResponseDTO(savedOrder);
@@ -84,6 +90,12 @@ export class OrderServiceImpl implements OrderService {
     }
 
     async deleteOrder(orderId: string): Promise<void> {
+        const findOrder = await this._orderRepository.findById(orderId);
+
+        if (!findOrder) {
+            throw new HttpException(404, "예약을 찾을 수 없습니다.");
+          }
+
         await this._orderRepository.deleteOrder(orderId);
     }
 }

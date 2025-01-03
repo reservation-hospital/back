@@ -1,7 +1,7 @@
 import { AdminRepository } from "@/api/admin/repository/admin.repository";
 import { MongooseAdmin } from "@/api/admin/model/admin.schema";
-import { MongooseHospital } from "@/api/admin/model/hospital.schema";
 import HttpException from "@/api/common/exceptions/http.exception";
+import { MongooseHospital } from "@/api/admin/model/hospital.schema";
 
 export class MongooseAdminRepository implements AdminRepository {
   /** 회원가입(role = admin, hospital) */
@@ -13,7 +13,7 @@ export class MongooseAdminRepository implements AdminRepository {
 
   /** 관리자 전체 조회(role = admin) */
   async getAdmins(): Promise<IAdmin[]> {
-    const admins = await MongooseAdmin.find().exec();
+    const admins = await MongooseAdmin.find({role:'admin'}).exec();
     return admins;
   }
 
@@ -21,19 +21,17 @@ export class MongooseAdminRepository implements AdminRepository {
   async getAdmin(id: string): Promise<IAdmin> {
     const admin = await MongooseAdmin.findById(id);
     if (!admin) {
-      throw new HttpException(404, "해당 유저를 찾을 수 없습니다.");
+      throw new HttpException(404, "해당 관리자를 찾을 수 없습니다.");
     }
     return admin;
   }
 
   /** 관리자 수정(role = admin) */
-  async updateAdmin(id: string, admin: IAdmin): Promise<void> {
-    const updatedAdmin = await MongooseAdmin.findByIdAndUpdate(id, admin, {
+  async updateAdmin(id: string, updateAdminInfo: IAdmin): Promise<void> {
+    await MongooseAdmin.findByIdAndUpdate(id, updateAdminInfo, {
       new: true,
     });
-    if (!updatedAdmin) {
-      throw new HttpException(404, "해당 유저를 찾을 수 없습니다.");
-    }
+
     return;
   }
 
@@ -41,56 +39,23 @@ export class MongooseAdminRepository implements AdminRepository {
   async deleteAdmin(id: string): Promise<void> {
     const deletedAdmin = await MongooseAdmin.findByIdAndDelete(id);
     if (!deletedAdmin) {
-      throw new HttpException(404, "해당 유저를 찾을 수 없습니다.");
+      throw new HttpException(404, "해당 관리자를 찾을 수 없습니다.");
     }
     return;
   }
 
-  /** 병원 목록 조회(role = admin) */
-  async getHospitals(): Promise<IHospital[]> {
-    const admins = await MongooseHospital.find().exec();
-    return admins;
-  }
-  
-  /** 병원 수정(role = hospital) */
-  async updateHospital(id: string, admin: IAdmin): Promise<IAdmin> {
-    const updateHospital = await MongooseAdmin.findByIdAndUpdate(id, admin, {
-      new: true,
-    });
-    if (!updateHospital) {
-      throw new HttpException(404, "해당 유저를 찾을 수 없습니다.");
-    }
-    return updateHospital;
-  }
-
-  /** 병원 삭제(role = hospital) */
-  async deleteHospital(id: string): Promise<void> {
-    const deletedHospital = await MongooseAdmin.findByIdAndDelete(id);
-    if (!deletedHospital) {
-      throw new HttpException(404, "해당 유저를 찾을 수 없습니다.");
-    }
-    return;
-  }
-  
-  /** 병원 상세 조회(role = hospital) */
-  async getHospital(id: string): Promise<IAdmin> {
-    const hospital = await MongooseAdmin.findById(id);
-    if (!hospital) {
-      throw new HttpException(404, "해당 유저를 찾을 수 없습니다.");
-    }
-    return hospital;
-  }
-
-  async findById(adminId: string): Promise<IAdmin | null> {
+  async findById(id: string): Promise<IAdmin | null> {
     try {
-      const fullAdmin = await MongooseAdmin.findById(adminId)
-        .populate({
-          path: "order"
-        })
+      
+      const admin = await MongooseAdmin.findById(id)
+        .populate({ path: "admin" })
         .exec();
-      return fullAdmin;
+
+      return admin ?? null;
+
     } catch (error: any) {
       const message = error.message.toString();
+  
       if (message.includes("Cast to ObjectId failed")) {
         return null;
       }
@@ -100,8 +65,23 @@ export class MongooseAdminRepository implements AdminRepository {
   }
 
   async findByEmail(email: string): Promise<IAdmin | null> {
-    const findAdmin = await MongooseAdmin.findOne({email});
+    // const findAdmin = await MongooseAdmin.findOne({email});
+    // return findAdmin ?? null;
 
-    return findAdmin ?? null;
+    try {
+      
+      const admin = await MongooseAdmin.findOne({email});
+        
+      return admin ?? null;
+      
+    } catch (error: any) {
+      const message = error.message.toString();
+  
+      if (message.includes("Cast to ObjectId failed")) {
+        return null;
+      }
+
+      throw error;
+    }
   }
 }

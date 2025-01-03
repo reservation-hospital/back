@@ -1,6 +1,8 @@
 import AdminController from "@/api/admin/controller/admin.controller";
 import { AdminServiceImpl } from "@/api/admin/service/admin.service";
+import { HospitalServiceImpl } from "@/api/admin/service/hospital.service";
 import { MongooseAdminRepository } from "@/api/admin/repository/mongooseAdmin.repository";
+import { MongooseHospitalRepository } from "@/api/admin/repository/mongooseHospital.repository";
 import express from "express";
 import { extractPath } from "@/utils/path.util";
 import { ROUTES_INDEX } from "@/api/index";
@@ -9,15 +11,19 @@ import { authRoleMiddleware } from "@/api/common/middleware/authRole.middleware"
 
 const adminRouter = express.Router();
 
-const adminController = new AdminController(
-  new AdminServiceImpl(new MongooseAdminRepository())
-);
+const adminRepository = new MongooseAdminRepository();
+const hospitalRepository = new MongooseHospitalRepository();
+
+const adminService = new AdminServiceImpl(adminRepository, hospitalRepository);
+const hospitalService = new HospitalServiceImpl(hospitalRepository);
+
+const adminController = new AdminController(adminService, hospitalService);
 
 const ADMIN_ROUTES = {
   /** 회원가입(role = admin, hospital) */
   SIGN_UP: `/api/admin`,
   /** 관리자 전체 조회(role = admin) */
-  GET_ADMINS: `/api/admins`,
+  GET_ADMINS: `/api/admin`,
   /** 관리자 조회(role = admin) */
   GET_ADMIN: `/api/admin/:id`,
   /** 관리자 수정(role = admin) */
@@ -28,19 +34,9 @@ const ADMIN_ROUTES = {
   GET_HOSPITALS: `/api/admin/hospitals`,
 };
 
-const HOSPITAL_ROUTES = {
-  /** 병원 수정(role = hospital) */
-  UPDATE_HOSPITAL: `/api/hospital/:id`,
-  /** 병원 삭제(role = hospital) */
-  DELETE_HOSPITAL: `/api/hospital/:id`,
-  /** 병원 상세 조회(role = hospital) */
-  GET_HOSPITAL: `/api/hospital/:id`,
-}
-
 /** 회원가입(role = admin, hospital) */
 adminRouter.post(
   extractPath(ADMIN_ROUTES.SIGN_UP, ROUTES_INDEX.ADMIN_API),
-  authRoleMiddleware(["admin", "hospital"]),
   adminController.signup
 );
 
@@ -80,30 +76,6 @@ adminRouter.get(
   extractPath(ADMIN_ROUTES.GET_HOSPITALS, ROUTES_INDEX.ADMIN_API),
   authRoleMiddleware(["admin"]),
   adminController.getHospitals
-);
-
-/** 병원 수정(role = hospital) */
-adminRouter.put(
-  extractPath(HOSPITAL_ROUTES.UPDATE_HOSPITAL, ROUTES_INDEX.ADMIN_API),
-  authRoleMiddleware(["hospital"]),
-  authAdminMiddleware,
-  adminController.updateHospital
-);
-
-/** 병원 삭제(role = hospital) */
-adminRouter.delete(
-  extractPath(HOSPITAL_ROUTES.DELETE_HOSPITAL, ROUTES_INDEX.ADMIN_API),
-  authRoleMiddleware(["hospital"]),
-  authAdminMiddleware,
-  adminController.deleteHospital
-);
-
-/** 병원 상세 조회(role = hospital) */
-adminRouter.get(
-  extractPath(HOSPITAL_ROUTES.GET_HOSPITAL, ROUTES_INDEX.ADMIN_API),
-  authRoleMiddleware(["hospital"]),
-  authAdminMiddleware,
-  adminController.getHospital
 );
 
 export default adminRouter;

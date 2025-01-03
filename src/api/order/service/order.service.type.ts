@@ -3,7 +3,8 @@ import { GetOrderResponseDTO } from "@/api/order/dto/getOrderResponse.dto";
 import { GetOrdersResponseDTO } from "@/api/order/dto/getOrdersResponse.dto";
 
 export interface OrderService {
-    createOrder(hospitalId: string, order: Omit<IOrder, "id" | "hospitalId">): Promise<OrderResponseDTO>;
+    createOrder(id: string, order: Omit<IOrder, "id" | "hospitalId" | "hospital" | "product" | "select_product">
+    ): Promise<OrderResponseDTO>;
     
     getOrders(): Promise<GetOrdersResponseDTO[]>;
     
@@ -11,7 +12,9 @@ export interface OrderService {
     
     updateOrder(
         orderId: string,
-        params: Partial<Omit<IOrder, "id">>
+        params: Partial<Omit<IOrder, "id"> & {
+            select_product: Omit<ISelectProduct, "id">[];
+        }>
     ): Promise<void>;
     
     deleteOrder(orderId: string): Promise<void>;

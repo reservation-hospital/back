@@ -1,27 +1,38 @@
 import HttpException from "@/api/common/exceptions/http.exception";
 import { AdminService } from "@/api/admin/service/admin.service.type";
 import { AdminRepository } from "@/api/admin/repository/admin.repository";
+import { HospitalRepository } from "@/api/admin/repository/hospital.repository";
 import bcrypt from "bcryptjs";
+import mongoose from "mongoose";
 
 export class AdminServiceImpl implements AdminService {
   constructor(
-    private readonly _adminRepository: AdminRepository
+    private readonly _adminRepository: AdminRepository,
+    private readonly _hospitalRepository: HospitalRepository,
   ) {}
 
   /** 회원가입(role = admin, hospital) */
-  async signUp(admin: Omit<IAdmin, "id">): Promise<IAdmin> {
-    const saltedPassword = await bcrypt.hash(admin.password, 12);
-    if (saltedPassword === undefined || saltedPassword === null) {
-      console.error("비밀번호 암호화 실패");
-      throw new HttpException(500, "비밀번호 암호화 실패");
-    }
-
-    const newAdmin = await this._adminRepository.signup({
-      ...admin,
-      password: saltedPassword,
-      role: "hospital",
-    });
-    return newAdmin;
+  async signUp(params: Omit<IAdmin, "id" | "role">): Promise<IAdmin> {
+    try {
+          const findAdmin = await this._adminRepository.findByEmail(params.email);
+          
+          if (findAdmin) {
+            throw new HttpException(409, "이미 존재하는 이메일입니다.");
+          }
+    
+          const saltedPassword = await bcrypt.hash(params.password, 12);
+    
+          const newAdmin = await this._adminRepository.signup({
+            ...params,
+            password: saltedPassword,
+            role: "admin",
+          });
+    
+          return newAdmin;
+    
+        } catch (error) {
+          throw error;
+        }
   }  
 
   /** 관리자 전체 조회(role = admin) */
@@ -34,7 +45,7 @@ export class AdminServiceImpl implements AdminService {
   async getAdmin(id: string): Promise<IAdmin> {
     const admin = await this._adminRepository.getAdmin(id);
     if (!admin) {
-      throw new HttpException(404, "해당 유저는 존재하지 않습니다.");
+      throw new HttpException(404, "해당 관리자는 존재하지 않습니다.");
     }
     return admin;
   }
@@ -44,7 +55,7 @@ export class AdminServiceImpl implements AdminService {
     const findAdmin = await this._adminRepository.findById(id);
 
     if (!findAdmin) {
-      throw new HttpException(404, "해당 유저는 존재하지 않습니다.");
+      throw new HttpException(404, "해당 관리자는 존재하지 않습니다.");
     }
 
     const updatedAdmin = await this._adminRepository.updateAdmin(id, {...params});
@@ -54,9 +65,9 @@ export class AdminServiceImpl implements AdminService {
 
   /** 관리자 삭제(role = admin) */
   async deleteAdmin(id: string): Promise<void> {
-    const admin = await this._adminRepository.getAdmin(id);
+    const admin = await this._adminRepository.findById(id);
     if (!admin) {
-      throw new HttpException(404, "해당 유저는 존재하지 않습니다.");
+      throw new HttpException(404, "해당 관리자는 존재하지 않습니다.");
     }
     await this._adminRepository.deleteAdmin(id);
     return;
@@ -64,29 +75,8 @@ export class AdminServiceImpl implements AdminService {
 
   /** 병원 목록 조회(role = admin) */
   async getHospitals(): Promise<IHospital[]> {
-    const hospitals = await this._adminRepository.getHospitals();
+    const hospitals = await this._hospitalRepository.getHospitals();  
     return hospitals;
-  }
-
-  /** 병원 수정(role = hospital) */
-  async updateHospital(id: string, admin: IAdmin): Promise<IAdmin> {
-    const updatedHospital = await this._adminRepository.updateHospital(
-      id,
-      admin
-    );
-    return updatedHospital;
-  }
-
-  /** 병원 삭제(role = hospital) */
-  async deleteHospital(id: string): Promise<void> {
-    await this._adminRepository.deleteHospital(id);
-    return;
-  }
-
-  /** 병원 상세 조회(role = hospital) */
-  async getHospital(id: string): Promise<IAdmin> {
-    const hospital = await this._adminRepository.getHospital(id);
-    return hospital;
   }
   
 }

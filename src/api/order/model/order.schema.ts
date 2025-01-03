@@ -14,8 +14,9 @@ const orderSchema = new mongoose.Schema(
         reservation_time: { type: String, required: true },
         status: { type: String, enum: ["pending", "success", "cancel"], default: "pending" },
         hospitalId: { type: String },
-        // product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
-        // select_product: { type: mongoose.Schema.Types.ObjectId, ref: "SelectProduct" },
+        hospital: { type: mongoose.Schema.Types.ObjectId, ref: "Hospital" },
+        product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+        select_product: [{ type: mongoose.Schema.Types.ObjectId, ref: "SelectProduct" }],
     },
     {
         timestamps: {
