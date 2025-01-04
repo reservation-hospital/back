@@ -1,7 +1,6 @@
 import { AdminRepository } from "@/api/admin/repository/admin.repository";
 import { MongooseAdmin } from "@/api/admin/model/admin.schema";
 import HttpException from "@/api/common/exceptions/http.exception";
-import { MongooseHospital } from "@/api/admin/model/hospital.schema";
 
 export class MongooseAdminRepository implements AdminRepository {
   /** 회원가입(role = admin, hospital) */
