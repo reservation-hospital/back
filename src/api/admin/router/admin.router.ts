@@ -1,8 +1,6 @@
 import AdminController from "@/api/admin/controller/admin.controller";
 import { AdminServiceImpl } from "@/api/admin/service/admin.service";
-import { SelectProductServiceImpl } from "@/api/selectProduct/service/selectProduct.service";
 import { MongooseAdminRepository } from "@/api/admin/repository/mongooseAdmin.repository";
-import { MongooseSelectProductRepository } from "@/api/selectProduct/repository/mongooseSelectProduct.repository";
 import express from "express";
 import { extractPath } from "@/utils/path.util";
 import { ROUTES_INDEX } from "@/api/index";
@@ -12,9 +10,8 @@ import { authRoleMiddleware } from "@/api/common/middleware/authRole.middleware"
 const adminRouter = express.Router();
 
 const adminService = new AdminServiceImpl(new MongooseAdminRepository());
-const selectProductService = new SelectProductServiceImpl(new MongooseSelectProductRepository());
 
-const adminController = new AdminController(adminService, selectProductService);
+const adminController = new AdminController(adminService);
 
 // const adminController = new AdminController(
 //   new AdminServiceImpl(
@@ -34,8 +31,6 @@ const ADMIN_ROUTES = {
   UPDATE_ADMIN: `/api/admin/:id`,
   /** 관리자 삭제(role = admin) */
   DELETE_ADMIN: `/api/admin/:id`,
-  /** 선택 상품 목록 조회 */
-  GET_SELECT_PRODUCT: `/api/admin/selectProduct`,
 };
 
 /** 회원가입(role = admin, hospital) */
@@ -73,14 +68,6 @@ adminRouter.delete(
   authRoleMiddleware(["admin"]),
   authAdminMiddleware,
   adminController.deleteAdmin
-);
-
-/** 선택 상품 목록 조회 */
-adminRouter.get(
-  extractPath(ADMIN_ROUTES.GET_SELECT_PRODUCT, ROUTES_INDEX.ADMIN_API),
-  authRoleMiddleware(["admin"]),
-  authAdminMiddleware,
-  adminController.getSelectProduct
 );
 
 export default adminRouter;

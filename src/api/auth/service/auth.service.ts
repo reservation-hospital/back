@@ -27,7 +27,7 @@ export class AuthServiceImpl implements AuthService {
 
     const plainPassword = password;
     
-    const isSamePassword = bcrypt.compare(plainPassword, findEmail.password);
+    const isSamePassword = await bcrypt.compare(plainPassword, findEmail.password);
 
     if (!isSamePassword) {
       throw new HttpException(401, "비밀번호가 일치하지 않습니다.");
