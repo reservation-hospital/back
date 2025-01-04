@@ -18,12 +18,12 @@ const AdminSchema = new mongoose.Schema<IAdmin>(
     //     ref: "Order"
     //   },
     // ],
-    selectProducts: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "SelectProduct"
-      },
-    ],
+    // selectProducts: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "SelectProduct"
+    //   },
+    // ],
   },
   {
     timestamps: true,

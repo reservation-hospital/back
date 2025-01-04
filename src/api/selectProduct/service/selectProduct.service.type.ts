@@ -3,7 +3,7 @@ import { GetSelectProductResponseDTO } from '@/api/selectProduct/dto/getSelectPr
 import { GetSelectProductsResponseDTO } from '@/api/selectProduct/dto/getSelectProductsResponse.dto';
 
 export interface SelectProductService {
-    createSelectProduct(params: Omit<ISelectProduct, "id">): Promise<SelectProductResponseDTO>;
+    createSelectProduct(params: Omit<ISelectProduct, "_id">): Promise<SelectProductResponseDTO>;
     
     getSelectProducts(): Promise<GetSelectProductsResponseDTO[]>;
     
@@ -11,7 +11,7 @@ export interface SelectProductService {
     
     updateSelectProduct(
         selectProductId: string,
-        params: Partial<Omit<ISelectProduct, "id">>
+        params: Partial<Omit<ISelectProduct, "_id">>
     ): Promise<void>;
     
     deleteSelectProduct(selectProductId: string): Promise<void>;
