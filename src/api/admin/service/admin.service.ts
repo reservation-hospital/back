@@ -1,14 +1,12 @@
 import HttpException from "@/api/common/exceptions/http.exception";
 import { AdminService } from "@/api/admin/service/admin.service.type";
 import { AdminRepository } from "@/api/admin/repository/admin.repository";
-import { HospitalRepository } from "@/api/admin/repository/hospital.repository";
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 
 export class AdminServiceImpl implements AdminService {
   constructor(
     private readonly _adminRepository: AdminRepository,
-    private readonly _hospitalRepository: HospitalRepository,
   ) {}
 
   /** 회원가입(role = admin, hospital) */
@@ -71,12 +69,6 @@ export class AdminServiceImpl implements AdminService {
     }
     await this._adminRepository.deleteAdmin(id);
     return;
-  }
-
-  /** 병원 목록 조회(role = admin) */
-  async getHospitals(): Promise<IHospital[]> {
-    const hospitals = await this._hospitalRepository.getHospitals();  
-    return hospitals;
   }
   
 }

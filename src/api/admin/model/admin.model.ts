@@ -4,8 +4,8 @@ export class Admin implements IAdmin {
   password: string;
   name: string;
   role?: role;
-  hospitals?: IHospital[];
-  orders?: IOrder[];
+  // hospitals?: IHospital[];
+  // orders?: IOrder[];
   selectProducts?: ISelectProduct[];
 
   constructor(params: IAdmin) {
@@ -13,9 +13,9 @@ export class Admin implements IAdmin {
     this.email = params.email;
     this.password = params.password;
     this.name = params.name;
-    this.role = params.role;
-    this.hospitals = params.hospitals;
-    this.orders = params.orders;
+    this.role = params.role ?? "admin";
+    // this.hospitals = params.hospitals;
+    // this.orders = params.orders;
     this.selectProducts = params.selectProducts;
   }
 }

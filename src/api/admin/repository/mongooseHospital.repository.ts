@@ -36,17 +36,6 @@ export class MongooseHospitalRepository implements HospitalRepository {
       }
       return hospital;
     }
-
-    /** 병원 목록 조회(role = admin) */
-    // id가 계속 문제 발생
-    async getHospitals(): Promise<IHospital[]> {
-      const hospitals = await MongooseHospital.find()
-      .populate({
-        path: 'hospitals',
-      })
-      .exec();;
-      return hospitals;
-    }
   
     // async findById(id: string): Promise<IAdmin | IHospital | null> {
     //   try {

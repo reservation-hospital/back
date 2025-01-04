@@ -7,6 +7,4 @@ export interface HospitalService {
     deleteHospital: (id: string) => Promise<void>;
     /** 병원 상세 조회(role = hospital) */
     getHospital: (id: string) => Promise<IHospital>;
-    /** 병원 목록 조회(role = admin) */
-    getHospitals: () => Promise<IHospital[]>;
   }

@@ -1,16 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import { AdminService } from "@/api/admin/service/admin.service.type";
-import { HospitalService } from "@/api/admin/service/hospital.service.type";
+import { SelectProductService } from "@/api/selectProduct/service/selectProduct.service.type";
 import bcrypt from "bcryptjs";
 
 export default class AdminController {  
-  constructor(private _adminService: AdminService, private _hospitalService: HospitalService) {
+  // 다른 곳에서 만든 서비스 컨트롤러에서 주입
+  constructor(private _adminService: AdminService, private _selectProductService: SelectProductService) {
     this.signup = this.signup.bind(this);
     this.getAdmins = this.getAdmins.bind(this);
     this.getAdmin = this.getAdmin.bind(this);
     this.updateAdmin = this.updateAdmin.bind(this);
     this.deleteAdmin = this.deleteAdmin.bind(this);
-    this.getHospitals = this.getHospitals.bind(this);
+    this.getSelectProduct = this.getSelectProduct.bind(this);
   }
 
   /** 회원가입(role = admin, hospital) */
@@ -85,22 +86,23 @@ export default class AdminController {
       res.status(200).json({ message: "관리자 삭제 성공" });
     } catch (error) {
       console.log(error);
-      res.status(404).json({ message: "관리자 삭제 실패" });
+      res.status(500).json({ message: "관리자 삭제 실패" });
       // next(error);
     }
   }
 
-  /** 병원 목록 조회(role = admin) */
-  async getHospitals(req: Request, res: Response, next: NextFunction) {
+  /** 선택 상품 목록 조회 */
+  async getSelectProduct(req: Request, res: Response, next: NextFunction) {
     try {
-      const hospitals = await this._hospitalService.getHospitals();
+      const selectProducts = await this._selectProductService.getSelectProducts();
       res.status(200).json({
-        message: "관리자 병원 목록 조회 성공",
-        data: hospitals,
+        message: "선택 상품 목록 조회 성공",
+        data: selectProducts,
       });
     } catch (error) {
-      res.status(400).json({ message: "관리자 병원 목록 조회 실패" });
+      res.status(400).json({ message: "선택 상품 목록 조회 실패" });
       next(error);
     }
   }
+
 }

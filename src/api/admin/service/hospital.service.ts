@@ -65,10 +65,4 @@ export class HospitalServiceImpl implements HospitalService {
     }
     return hospital;
   }
-
-  /** 병원 목록 조회(role = admin, hospital) */
-  async getHospitals(): Promise<IHospital[]> {
-    const hospitals = await this._hospitalRepository.getHospitals();
-    return hospitals;
-  }
 }

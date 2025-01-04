@@ -11,7 +11,7 @@ export class SelectProductServiceImpl implements SelectProductService {
         private readonly _selectProductRepository: SelectProductRepository
     ) {}
 
-    async createSelectProduct(params: Omit<ISelectProduct, "id">): Promise<SelectProductResponseDTO> {
+    async createSelectProduct(params: Omit<ISelectProduct, "_id">): Promise<SelectProductResponseDTO> {
         try {
             const selectProduct = await this._selectProductRepository.createSelectProduct(params);
             return new SelectProductResponseDTO(selectProduct);
@@ -42,7 +42,7 @@ export class SelectProductServiceImpl implements SelectProductService {
         return selectProductList;
     }
 
-    async updateSelectProduct(selectProductId: string, params: Partial<Omit<ISelectProduct, "id">>): Promise<void> {
+    async updateSelectProduct(selectProductId: string, params: Partial<Omit<ISelectProduct, "_id">>): Promise<void> {
         const findSelectProduct = await this._selectProductRepository.findById(selectProductId);
         
         if(!findSelectProduct) {
