@@ -5,13 +5,12 @@ import bcrypt from "bcryptjs";
 
 export default class AdminController {  
   // 다른 곳에서 만든 서비스 컨트롤러에서 주입
-  constructor(private _adminService: AdminService, private _selectProductService: SelectProductService) {
+  constructor(private _adminService: AdminService) {
     this.signup = this.signup.bind(this);
     this.getAdmins = this.getAdmins.bind(this);
     this.getAdmin = this.getAdmin.bind(this);
     this.updateAdmin = this.updateAdmin.bind(this);
     this.deleteAdmin = this.deleteAdmin.bind(this);
-    this.getSelectProduct = this.getSelectProduct.bind(this);
   }
 
   /** 회원가입(role = admin, hospital) */
@@ -90,19 +89,4 @@ export default class AdminController {
       // next(error);
     }
   }
-
-  /** 선택 상품 목록 조회 */
-  async getSelectProduct(req: Request, res: Response, next: NextFunction) {
-    try {
-      const selectProducts = await this._selectProductService.getSelectProducts();
-      res.status(200).json({
-        message: "선택 상품 목록 조회 성공",
-        data: selectProducts,
-      });
-    } catch (error) {
-      res.status(400).json({ message: "선택 상품 목록 조회 실패" });
-      next(error);
-    }
-  }
-
 }
