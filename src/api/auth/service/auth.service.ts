@@ -1,33 +1,41 @@
-import bcrypt from 'bcryptjs';
+import bcrypt from "bcryptjs";
 import { AuthService } from "@/api/auth/service/auth.service.type";
 import { AdminRepository } from "@/api/admin/repository/admin.repository";
-import { HospitalRepository } from '@/api/admin/repository/hospital.repository';
+import { HospitalRepository } from "@/api/admin/repository/hospital.repository";
 import HttpException from "@/api/common/exceptions/http.exception";
 import { JwtService } from "@/api/common/services/jwt.service";
 
 export class AuthServiceImpl implements AuthService {
   private readonly _adminRepository: AdminRepository;
   private readonly _hospitalRepository: HospitalRepository;
-  constructor(adminRepository: AdminRepository, hospitalRepository: HospitalRepository) {
+  constructor(
+    adminRepository: AdminRepository,
+    hospitalRepository: HospitalRepository
+  ) {
     this._adminRepository = adminRepository;
     this._hospitalRepository = hospitalRepository;
   }
-  
+
   async login(email: string, password: string): Promise<string> {
     let findEmail = await this._adminRepository.findByEmail(email);
 
-    if(!findEmail) {
+    if (!findEmail) {
       findEmail = await this._hospitalRepository.findByEmail(email);
     }
 
     if (!findEmail) {
-      console.log("존재하지 않는 회원입니다.")
       throw new HttpException(404, "존재하지 않는 회원입니다.");
-    }    
+    }
 
-    const plainPassword = password;
-    
-    const isSamePassword = await bcrypt.compare(plainPassword, findEmail.password);
+    const plainPassword = password; // 사용자가 입력한 비밀번호 (일반 텍스트)
+    const hashedPassword = findEmail.password; // 데이터베이스에서 가져온 해싱된 비밀번호
+
+    const salt = await bcrypt.genSalt(10);
+    const saltedPassword = await bcrypt.hash(plainPassword, salt);
+    console.log("saltedPassword", saltedPassword);
+    console.log("hashedPassword", hashedPassword);
+
+    const isSamePassword = await bcrypt.compare(plainPassword, hashedPassword);
 
     if (!isSamePassword) {
       throw new HttpException(401, "비밀번호가 일치하지 않습니다.");
@@ -36,13 +44,11 @@ export class AuthServiceImpl implements AuthService {
     const accessToken = JwtService.generateAccessToken({
       email: findEmail.email,
       role: findEmail.role,
-      // 유효기간 1시간
-      expiresIn: "1h",
+      expiresIn: "7d",
     });
 
     return accessToken;
   }
 
   async logout(): Promise<void> {}
-
 }

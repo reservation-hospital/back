@@ -11,7 +11,7 @@ export const authCookieViewMiddleware = (authRedirect: boolean = true) => {
       const tokenValue = token.split("Bearer ")[1];
 
       console.log(req);
-      
+
       if (!token) {
         req.admin = {
           id: "",

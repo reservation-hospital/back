@@ -5,33 +5,31 @@ import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 
 export class AdminServiceImpl implements AdminService {
-  constructor(
-    private readonly _adminRepository: AdminRepository,
-  ) {}
+  constructor(private readonly _adminRepository: AdminRepository) {}
 
   /** 회원가입(role = admin, hospital) */
   async signUp(params: Omit<IAdmin, "id" | "role">): Promise<IAdmin> {
     try {
-          const findAdmin = await this._adminRepository.findByEmail(params.email);
-          
-          if (findAdmin) {
-            throw new HttpException(409, "이미 존재하는 이메일입니다.");
-          }
-    
-          const saltedPassword = await bcrypt.hash(params.password, 12);
-    
-          const newAdmin = await this._adminRepository.signup({
-            ...params,
-            password: saltedPassword,
-            role: "admin",
-          });
-    
-          return newAdmin;
-    
-        } catch (error) {
-          throw error;
-        }
-  }  
+      const findAdmin = await this._adminRepository.findByEmail(params.email);
+
+      if (findAdmin) {
+        throw new HttpException(409, "이미 존재하는 이메일입니다.");
+      }
+
+      const salt = await bcrypt.genSalt(10);
+      const saltedPassword = await bcrypt.hash(params.password, salt);
+
+      const newAdmin = await this._adminRepository.signup({
+        ...params,
+        password: saltedPassword,
+        role: "admin",
+      });
+
+      return newAdmin;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   /** 관리자 전체 조회(role = admin) */
   async getAdmins(): Promise<IAdmin[]> {
@@ -49,14 +47,19 @@ export class AdminServiceImpl implements AdminService {
   }
 
   /** 관리자 수정(role = admin) */
-  async updateAdmin(id: string, params: Partial<Omit<IAdmin, "id" | "order">>): Promise<void> {
+  async updateAdmin(
+    id: string,
+    params: Partial<Omit<IAdmin, "id" | "order">>
+  ): Promise<void> {
     const findAdmin = await this._adminRepository.findById(id);
 
     if (!findAdmin) {
       throw new HttpException(404, "해당 관리자는 존재하지 않습니다.");
     }
 
-    const updatedAdmin = await this._adminRepository.updateAdmin(id, {...params});
+    const updatedAdmin = await this._adminRepository.updateAdmin(id, {
+      ...params,
+    });
 
     return updatedAdmin;
   }
@@ -70,5 +73,4 @@ export class AdminServiceImpl implements AdminService {
     await this._adminRepository.deleteAdmin(id);
     return;
   }
-  
 }

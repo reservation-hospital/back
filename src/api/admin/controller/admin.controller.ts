@@ -3,7 +3,7 @@ import { AdminService } from "@/api/admin/service/admin.service.type";
 import { SelectProductService } from "@/api/selectProduct/service/selectProduct.service.type";
 import bcrypt from "bcryptjs";
 
-export default class AdminController {  
+export default class AdminController {
   // 다른 곳에서 만든 서비스 컨트롤러에서 주입
   constructor(private _adminService: AdminService) {
     this.signup = this.signup.bind(this);
@@ -18,11 +18,9 @@ export default class AdminController {
     try {
       const { password } = req.body;
 
-      const saltedPassword = await bcrypt.hash(password, 12);
-    
       const admin = await this._adminService.signUp({
         email: req.body.email,
-        password: saltedPassword,
+        password: req.body.password,
         name: req.body.name,
         // hospitals: req.body.hospital,
       });
@@ -67,7 +65,10 @@ export default class AdminController {
     try {
       // const { id } = req.params;
       // await this._adminService.updateAdmin(id, req.body);
-      const admin = await this._adminService.updateAdmin(req.params.id, req.body);
+      const admin = await this._adminService.updateAdmin(
+        req.params.id,
+        req.body
+      );
       res.status(200).json({
         message: "관리자 수정 성공",
         data: admin,
