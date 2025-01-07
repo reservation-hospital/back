@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { AdminService } from "@/api/admin/service/admin.service.type";
-import { SelectProductService } from "@/api/selectProduct/service/selectProduct.service.type";
 import bcrypt from "bcryptjs";
 
 export default class AdminController {

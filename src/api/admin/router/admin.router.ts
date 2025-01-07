@@ -9,16 +9,16 @@ import { authRoleMiddleware } from "@/api/common/middleware/authRole.middleware"
 
 const adminRouter = express.Router();
 
-const adminService = new AdminServiceImpl(new MongooseAdminRepository());
+// const adminService = new AdminServiceImpl(new MongooseAdminRepository());
 
-const adminController = new AdminController(adminService);
+// const adminController = new AdminController(adminService);
 
-// const adminController = new AdminController(
-//   new AdminServiceImpl(
-//     new MongooseAdminRepository(),
-//     new MongooseSelectProductRepository()
-//   ),
-// );
+const adminController = new AdminController(
+  new AdminServiceImpl(
+    new MongooseAdminRepository(),
+    // new MongooseSelectProductRepository()
+  ),
+);
 
 const ADMIN_ROUTES = {
   /** 회원가입(role = admin, hospital)(post) */
