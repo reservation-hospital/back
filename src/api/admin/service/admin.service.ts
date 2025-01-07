@@ -22,8 +22,9 @@ export class AdminServiceImpl implements AdminService {
       const newAdmin = await this._adminRepository.signup({
         ...params,
         password: saltedPassword,
-        role: "admin",
+        role: "hospital",
       });
+      console.log(newAdmin);
 
       return newAdmin;
     } catch (error) {

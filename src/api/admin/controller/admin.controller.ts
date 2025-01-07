@@ -15,14 +15,13 @@ export default class AdminController {
 
   /** 회원가입(role = admin, hospital) */
   async signup(req: Request, res: Response, next: NextFunction) {
+    console.log(req.body);
     try {
-      const { password } = req.body;
-
       const admin = await this._adminService.signUp({
         email: req.body.email,
         password: req.body.password,
         name: req.body.name,
-        // hospitals: req.body.hospital,
+        hospital: req.body.hospital,
       });
 
       res.status(201).json({ message: "회원가입 성공", data: admin });

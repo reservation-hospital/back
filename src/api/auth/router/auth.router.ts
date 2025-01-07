@@ -2,7 +2,6 @@ import express from "express";
 import AuthController from "@/api/auth/controller/auth.controller";
 import { AuthServiceImpl } from "@/api/auth/service/auth.service";
 import { MongooseAdminRepository } from "@/api/admin/repository/mongooseAdmin.repository";
-import { MongooseHospitalRepository } from '@/api/admin/repository/mongooseHospital.repository';
 import { extractPath } from "@/utils/path.util";
 import { ROUTES_INDEX } from "@/api/index";
 
@@ -16,7 +15,7 @@ const AUTH_ROUTES = {
 } as const;
 
 const authController = new AuthController(
-  new AuthServiceImpl(new MongooseAdminRepository(), new MongooseHospitalRepository())
+  new AuthServiceImpl(new MongooseAdminRepository())
 );
 
 /** 로그인 */

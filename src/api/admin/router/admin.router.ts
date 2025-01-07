@@ -21,15 +21,15 @@ const adminController = new AdminController(adminService);
 // );
 
 const ADMIN_ROUTES = {
-  /** 회원가입(role = admin, hospital) */
-  SIGN_UP: `/api/admin`,
-  /** 관리자 전체 조회(role = admin) */
-  GET_ADMINS: `/api/admin`,
-  /** 관리자 조회(role = admin) */
-  GET_ADMIN: `/api/admin/:id`,
-  /** 관리자 수정(role = admin) */
-  UPDATE_ADMIN: `/api/admin/:id`,
-  /** 관리자 삭제(role = admin) */
+  /** 회원가입(role = admin, hospital)(post) */
+  SIGN_UP: `/api/admin/`,
+  /** 관리자 전체 조회(role = admin)(get) */
+  GET_ADMINS: `/api/admins/`,
+  /** 관리자 조회(role = admin)(get) */
+  GET_ADMIN: `/api/admin/`,
+  /** 관리자 수정(role = admin)(put) */
+  UPDATE_ADMIN: `/api/admin/`,
+  /** 관리자 삭제(role = admin)(delete) */
   DELETE_ADMIN: `/api/admin/:id`,
 };
 
@@ -49,7 +49,7 @@ adminRouter.get(
 /** 관리자 조회(role = admin) */
 adminRouter.get(
   extractPath(ADMIN_ROUTES.GET_ADMIN, ROUTES_INDEX.ADMIN_API),
-  authRoleMiddleware(["admin"]),
+  authRoleMiddleware(["admin", "hospital"]),
   authAdminMiddleware,
   adminController.getAdmin
 );
@@ -57,7 +57,7 @@ adminRouter.get(
 /** 관리자 수정(role = admin) */
 adminRouter.put(
   extractPath(ADMIN_ROUTES.UPDATE_ADMIN, ROUTES_INDEX.ADMIN_API),
-  authRoleMiddleware(["admin"]),
+  authRoleMiddleware(["admin", "hospital"]),
   authAdminMiddleware,
   adminController.updateAdmin
 );
