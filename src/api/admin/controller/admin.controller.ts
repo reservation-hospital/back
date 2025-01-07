@@ -46,7 +46,8 @@ export default class AdminController {
   /** 관리자 조회(role = admin) */
   async getAdmin(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id } = req.params;
+      const {id} = req.admin
+      console.log(id);
       const admin = await this._adminService.getAdmin(id);
 
       res.status(200).json({
@@ -63,9 +64,17 @@ export default class AdminController {
     try {
       // const { id } = req.params;
       // await this._adminService.updateAdmin(id, req.body);
+
+      const updateData = {...req.body};
+      
+      if (updateData.password) {
+        const saltedPassword = await bcrypt.hash(updateData.password, 10);
+        updateData.password = saltedPassword;
+      }
+
       const admin = await this._adminService.updateAdmin(
-        req.params.id,
-        req.body
+        req.admin.id,
+        updateData
       );
       res.status(200).json({
         message: "관리자 수정 성공",

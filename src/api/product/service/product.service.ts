@@ -13,15 +13,15 @@ export class ProductServiceImpl implements ProductService {
     product: Omit<IProduct, "id">
   ): Promise<ProductResponseDTO> {
     console.log("service", product);
-    const newProduct = await this._productRepository.createProduct(product);
+    const newProduct = await this._productRepository.save(product);
     return newProduct;
   }
   async getProducts(): Promise<ProductResponseDTO[]> {
-    const products = await this._productRepository.getProducts();
+    const products = await this._productRepository.findAll();
     return products;
   }
   async getProductById(productId: string): Promise<ProductResponseDTO> {
-    const product = await this._productRepository.getProductById(productId);
+    const product = await this._productRepository.findById(productId);
     if (!product) {
       throw new HttpException(404, "상품을 찾을 수 없습니다.");
     }
@@ -36,15 +36,15 @@ export class ProductServiceImpl implements ProductService {
       description: product.description || "",
       hospital: product.hospital,
     };
-    await this._productRepository.updateProduct(productId, productToUpdate);
+    await this._productRepository.update(productId, productToUpdate);
 
     return;
   }
   async deleteProduct(productId: string): Promise<void> {
-    const product = await this._productRepository.getProductById(productId);
+    const product = await this._productRepository.findById(productId);
     if (!product) {
       throw new HttpException(404, "상품을 찾을 수 없습니다.");
     }
-    await this._productRepository.deleteProduct(productId);
+    await this._productRepository.delete(productId);
   }
 }

@@ -24,9 +24,10 @@ const ADMIN_ROUTES = {
   /** 회원가입(role = admin, hospital)(post) */
   SIGN_UP: `/api/admin/`,
   /** 관리자 전체 조회(role = admin)(get) */
-  GET_ADMINS: `/api/admins/`,
+  GET_ADMINS: `/api/admin/`,
   /** 관리자 조회(role = admin)(get) */
-  GET_ADMIN: `/api/admin/`,
+  // req.admin.id로 조회하기
+  GET_ADMIN: `/api/admin/me`,
   /** 관리자 수정(role = admin)(put) */
   UPDATE_ADMIN: `/api/admin/`,
   /** 관리자 삭제(role = admin)(delete) */

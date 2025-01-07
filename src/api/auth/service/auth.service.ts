@@ -17,6 +17,8 @@ export class AuthServiceImpl implements AuthService {
       throw new HttpException(404, "존재하지 않는 회원입니다.");
     }
 
+    console.log(findEmail);
+
     const plainPassword = password; // 사용자가 입력한 비밀번호 (일반 텍스트)
     const hashedPassword = findEmail.password; // 데이터베이스에서 가져온 해싱된 비밀번호
 
@@ -27,7 +29,7 @@ export class AuthServiceImpl implements AuthService {
     }
 
     const accessToken = JwtService.generateAccessToken({
-      email: findEmail.id,
+      id: findEmail.id,
       role: findEmail.role,
       expiresIn: "7d",
     });

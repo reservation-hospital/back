@@ -47,13 +47,13 @@ export class OrderServiceImpl implements OrderService {
       // select_product: order.select_product,
     };
 
-    const savedOrder = await this._orderRepository.createOrder(newOrder);
+    const savedOrder = await this._orderRepository.save(newOrder);
 
     const updatedOrder = admin.orders
       ? admin.orders.concat(savedOrder)
       : [savedOrder];
 
-    await this._adminRepository.updateAdmin(admin.id, {
+    await this._adminRepository.update(admin.id, {
       orders: updatedOrder,
     });
 
@@ -92,7 +92,7 @@ export class OrderServiceImpl implements OrderService {
       throw new HttpException(404, "예약 정보 조회 실패");
     }
 
-    await this._orderRepository.updateOrder(orderId, params);
+    await this._orderRepository.update(orderId, params);
 
     return;
   }
@@ -104,6 +104,6 @@ export class OrderServiceImpl implements OrderService {
       throw new HttpException(404, "예약을 찾을 수 없습니다.");
     }
 
-    await this._orderRepository.deleteOrder(orderId);
+    await this._orderRepository.delete(orderId);
   }
 }

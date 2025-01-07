@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 
 type Params = {
-  /** 이메일 */
-  email: string;
+  /** ID */
+  id: string;
   /** 역할 */
   role?: role;
   /** 만료 시간 */
@@ -31,10 +31,11 @@ export class JwtService {
 
   /** 엑세스 토큰 발행 */
   static generateAccessToken(params: Params) {
-    const { email, expiresIn, role } = params;
+    const { id, expiresIn, role } = params;
+    console.log(params);
 
     return jwt.sign(
-      { email, role: role ?? "hospital" },
+      { id, role: role ?? "hospital" },
       this.ACCESS_TOKEN_SECRET,
       {
         expiresIn: expiresIn || "1h",
@@ -44,8 +45,8 @@ export class JwtService {
 
   /** 리프레시 토큰 발행 */
   static generateRefreshToken(params: Omit<Params, "role">) {
-    const { email, expiresIn } = params;
-    return jwt.sign({ email }, this.REFRESH_TOKEN_SECRET, {
+    const { id, expiresIn } = params;
+    return jwt.sign({ id }, this.REFRESH_TOKEN_SECRET, {
       expiresIn: expiresIn || "14d",
     });
   }
