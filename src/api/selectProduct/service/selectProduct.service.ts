@@ -13,7 +13,7 @@ export class SelectProductServiceImpl implements SelectProductService {
 
     async createSelectProduct(params: Omit<ISelectProduct, "_id">): Promise<SelectProductResponseDTO> {
         try {
-            const selectProduct = await this._selectProductRepository.createSelectProduct(params);
+            const selectProduct = await this._selectProductRepository.save(params);
             return new SelectProductResponseDTO(selectProduct);
         } catch (error) {
             throw new HttpException(400, "선택 상품 생성 실패");
@@ -49,12 +49,12 @@ export class SelectProductServiceImpl implements SelectProductService {
             throw new HttpException(404, "선택 상품 정보 조회 실패");
         }
         
-        await this._selectProductRepository.updateSelectProduct(selectProductId, params);
+        await this._selectProductRepository.update(selectProductId, params);
 
         return;
     }
 
     async deleteSelectProduct(selectProductId: string): Promise<void> {
-        await this._selectProductRepository.deleteSelectProduct(selectProductId);
+        await this._selectProductRepository.delete(selectProductId);
     }
 }

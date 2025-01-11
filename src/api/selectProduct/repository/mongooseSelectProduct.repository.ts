@@ -2,7 +2,7 @@ import { SelectProductRepository } from "@/api/selectProduct/repository/selectPr
 import { MongooseSelectProduct } from '@/api/selectProduct/model/selectProduct.schema';
 
 export class MongooseSelectProductRepository implements SelectProductRepository {
-    async createSelectProduct(selectProduct: Omit<ISelectProduct, "_id">): Promise<ISelectProduct> {
+    async save(selectProduct: Omit<ISelectProduct, "_id">): Promise<ISelectProduct> {
         const newSelectProduct = new MongooseSelectProduct(selectProduct);
 
         await newSelectProduct.save();
@@ -20,13 +20,13 @@ export class MongooseSelectProductRepository implements SelectProductRepository 
         return MongooseSelectProduct.findById(selectProductId);
     }
 
-    async updateSelectProduct(selectProductId: string, updateSelectProductInfo: Partial<ISelectProduct>): Promise<void> {
+    async update(selectProductId: string, updateSelectProductInfo: Partial<ISelectProduct>): Promise<void> {
         await MongooseSelectProduct.findByIdAndUpdate(selectProductId, updateSelectProductInfo);
 
         return;
     }
 
-    async deleteSelectProduct(selectProductId: string): Promise<void> {
+    async delete(selectProductId: string): Promise<void> {
         await MongooseSelectProduct.findByIdAndDelete(selectProductId);
 
         return;

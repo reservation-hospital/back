@@ -3,7 +3,7 @@ import { OrderRepository } from "@/api/order/repository/order.repository";
 import { MongooseOrder } from "@/api/order/model/order.schema";
 
 export class MongooseOrderRepository implements OrderRepository {
-   async createOrder(order: Omit<IOrder, "id">): Promise<IOrder> {
+   async save(order: Omit<IOrder, "id">): Promise<IOrder> {
         const newOrder = new MongooseOrder(order);
 
         await newOrder.save();
@@ -21,7 +21,7 @@ export class MongooseOrderRepository implements OrderRepository {
         return MongooseOrder.findById(orderId);
     }
 
-    async updateOrder(orderId: string, updateOrderInfo: Partial<IOrder>): Promise<IOrder> {
+    async update(orderId: string, updateOrderInfo: Partial<IOrder>): Promise<IOrder> {
         const updateOrder = await MongooseOrder.findByIdAndUpdate(orderId, updateOrderInfo);
         
         if (!updateOrder) {
@@ -31,7 +31,7 @@ export class MongooseOrderRepository implements OrderRepository {
         return updateOrder;
     }
 
-    async deleteOrder(orderId: string): Promise<void> {
+    async delete(orderId: string): Promise<void> {
         await MongooseOrder.findByIdAndDelete(orderId);
 
         return;

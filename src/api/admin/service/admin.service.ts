@@ -19,7 +19,7 @@ export class AdminServiceImpl implements AdminService {
       const salt = await bcrypt.genSalt(10);
       const saltedPassword = await bcrypt.hash(params.password, salt);
 
-      const newAdmin = await this._adminRepository.signup({
+      const newAdmin = await this._adminRepository.save({
         ...params,
         password: saltedPassword,
         role: "hospital",
@@ -34,13 +34,13 @@ export class AdminServiceImpl implements AdminService {
 
   /** 관리자 전체 조회(role = admin) */
   async getAdmins(): Promise<IAdmin[]> {
-    const admins = await this._adminRepository.getAdmins();
+    const admins = await this._adminRepository.findAll();
     return admins;
   }
 
   /** 관리자 조회(role = admin) */
   async getAdmin(id: string): Promise<IAdmin> {
-    const admin = await this._adminRepository.getAdmin(id);
+    const admin = await this._adminRepository.findById(id);
     if (!admin) {
       throw new HttpException(404, "해당 관리자는 존재하지 않습니다.");
     }
@@ -58,7 +58,7 @@ export class AdminServiceImpl implements AdminService {
       throw new HttpException(404, "해당 관리자는 존재하지 않습니다.");
     }
 
-    const updatedAdmin = await this._adminRepository.updateAdmin(id, {
+    const updatedAdmin = await this._adminRepository.update(id, {
       ...params,
     });
 
@@ -71,7 +71,7 @@ export class AdminServiceImpl implements AdminService {
     if (!admin) {
       throw new HttpException(404, "해당 관리자는 존재하지 않습니다.");
     }
-    await this._adminRepository.deleteAdmin(id);
+    await this._adminRepository.delete(id);
     return;
   }
 }
