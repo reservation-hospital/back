@@ -1,6 +1,7 @@
 import express from "express";
 import SelectProductController from "@/api/selectProduct/controller/selectProduct.controller";
 import { MongooseSelectProductRepository } from "@/api/selectProduct/repository/mongooseSelectProduct.repository";
+import { MongooseAdminRepository } from "@/api/admin/repository/mongooseAdmin.repository";
 import { SelectProductServiceImpl } from "@/api/selectProduct/service/selectProduct.service";
 import { extractPath } from "@/utils/path.util";
 import { ROUTES_INDEX } from "@/api";
@@ -8,7 +9,8 @@ import { ROUTES_INDEX } from "@/api";
 const selectProductRouter = express.Router();
 const selectProductController = new SelectProductController(
     new SelectProductServiceImpl(
-        new MongooseSelectProductRepository()
+        new MongooseSelectProductRepository(),
+        new MongooseAdminRepository()
     )
 );
 

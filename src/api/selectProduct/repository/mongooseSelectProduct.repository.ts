@@ -2,7 +2,7 @@ import { SelectProductRepository } from "@/api/selectProduct/repository/selectPr
 import { MongooseSelectProduct } from '@/api/selectProduct/model/selectProduct.schema';
 
 export class MongooseSelectProductRepository implements SelectProductRepository {
-    async save(selectProduct: Omit<ISelectProduct, "_id">): Promise<ISelectProduct> {
+    async save(selectProduct: Omit<ISelectProduct, "id">): Promise<ISelectProduct> {
         const newSelectProduct = new MongooseSelectProduct(selectProduct);
 
         await newSelectProduct.save();
