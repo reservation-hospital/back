@@ -1,6 +1,6 @@
 interface ISelectProduct {
     /** 선택 상품 ID */
-    _id?: string;
+    id?: string;
     /** 선택 상품 이름 */
     name: string;
     /** 선택 상품 가격 */

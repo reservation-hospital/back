@@ -13,6 +13,8 @@ interface IAdmin {
   name: string;
   /** 병원 */
   hospital?: IHospital;
+  /** 상품 목록 */
+  products?: IProduct[];
   /** 예약 목록(모든 병원 예약 목록) */
   orders?: IOrder[];
   /** 선택 상품 목록 */

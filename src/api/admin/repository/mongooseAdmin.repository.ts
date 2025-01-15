@@ -27,9 +27,11 @@ export class MongooseAdminRepository implements AdminRepository {
 
   /** 관리자 수정(role = admin) */
   async update(id: string, updateAdminInfo: IAdmin): Promise<void> {
-    await MongooseAdmin.findByIdAndUpdate(id, updateAdminInfo, {
-      new: true,
-    });
+    // await MongooseAdmin.findByIdAndUpdate(id, updateAdminInfo, {
+    //   new: true,
+    // });
+
+    await MongooseAdmin.findByIdAndUpdate(id, updateAdminInfo).exec();
 
     return;
   }

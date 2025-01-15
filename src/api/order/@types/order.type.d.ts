@@ -24,12 +24,12 @@ interface IOrder {
     /** 예약 상태 */
     status?: 'pending' | 'success' | 'cancel';
 
-    // /** 예약 병원 id */
-    // hospitalId: string;
+    /** 예약 상품 */
+    productId: string;
+    /** 예약 병원 ID */
+    hospitalId: string;
     // /** 예약 병원 정보 */
     // hospital: IHospital;
-    // /** 예약 상품 정보 */
-    // product: IProduct;
     // /** 예약 선택 상품 정보 */
     // select_product?: ISelectProduct[];
 }

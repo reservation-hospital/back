@@ -12,10 +12,10 @@ export default class Order implements IOrder {
     reservation_time: string;
     status?: 'pending' | 'success' | 'cancel';
     
+    productId: string;
     hospitalId: string;
-    hospital: IHospital;
-    product: IProduct;
-    select_product?: ISelectProduct[];
+    // hospital: IHospital;
+    // select_product?: ISelectProduct[];
 
     constructor(params: IOrder) {
         this.id = params.id;
@@ -31,9 +31,9 @@ export default class Order implements IOrder {
         this.reservation_time = params.reservation_time;
         this.status = params.status;
 
+        this.productId = params.productId;
         this.hospitalId = params.hospitalId;
-        this.hospital = params.hospital;
-        this.product = params.product;
-        this.select_product = params.select_product;
+        // this.hospital = params.hospital;
+        // this.select_product = params.select_product;
     }
 }

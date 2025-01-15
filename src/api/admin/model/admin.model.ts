@@ -5,6 +5,7 @@ export class Admin implements IAdmin {
   name: string;
   role?: role;
   hospital?: IHospital;
+  products?: IProduct[];
   orders?: IOrder[];
   selectProducts?: ISelectProduct[];
 
@@ -15,6 +16,7 @@ export class Admin implements IAdmin {
     this.name = params.name;
     this.role = params.role ?? "admin";
     this.hospital = params.hospital;
+    this.products = params.products;
     this.orders = params.orders;
     this.selectProducts = params.selectProducts;
   }

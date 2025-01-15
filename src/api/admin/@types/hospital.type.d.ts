@@ -15,6 +15,8 @@ interface IHospital {
   status: "active" | "inactive";
   /** 권한 */
   role?: role;
+  /** 상품 목록 */
+  // products?: IProduct[];
   /** 예약 목록(해당 병원 예약 목록) */
   orders?: IOrder[];
 }

@@ -10,6 +10,11 @@ const AdminSchema = new mongoose.Schema<IAdmin>(
       type: Object,
       default: null,
     },
+    products: [
+      {
+        type: mongoose.Schema.Types.ObjectId, ref: "Product",
+      },
+    ],
     orders: [
       {
         type: mongoose.Schema.Types.ObjectId,

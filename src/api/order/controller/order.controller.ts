@@ -13,7 +13,7 @@ export default class OrderController {
     /** 주문 생성 */
     async createOrder(req: Request, res: Response, next: NextFunction) {
         try {
-            const order = await this._orderService.createOrder(req.admin.id,{
+            const order = await this._orderService.createOrder({
                 user_name: req.body.name,
                 user_tell: req.body.phone,
                 user_birth: req.body.birth,
@@ -25,8 +25,8 @@ export default class OrderController {
                 reservation_date: req.body.date,
                 reservation_time: req.body.time,
                 status: req.body.status,
-                // hospitalId: req.body.hospital,
-                // productId: req.body.product,
+                productId: req.body.productId,
+                // hospitalId: req.body.id,
                 // select_product: req.body.select_product
             });
             res.status(200).json(order);
