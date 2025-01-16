@@ -20,14 +20,14 @@ export default class OrderController {
                 user_address: req.body.address,
                 user_gender: req.body.gender,
                 user_email: req.body.email,
-                total_price: req.body.price,
                 memo: req.body.memo,
                 reservation_date: req.body.date,
                 reservation_time: req.body.time,
                 status: req.body.status,
+                // total_price: req.body.price,
                 productId: req.body.productId,
+                select_product: req.body.select_product
                 // hospitalId: req.body.id,
-                // select_product: req.body.select_product
             });
             res.status(200).json(order);
         } catch (error) {

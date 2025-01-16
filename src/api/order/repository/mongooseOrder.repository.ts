@@ -10,12 +10,50 @@ export class MongooseOrderRepository implements OrderRepository {
     }
 
     async findAll(): Promise<IOrder[]> {
-        const values = await MongooseOrder.find();
+        const values = await MongooseOrder.find()
+           .populate(
+            {
+              path: "productId",
+              select: "name price",
+            }
+           )
+           .populate(
+            {
+              path: "hospitalId",
+              select: "name",
+            }
+           )
+           .populate(
+            {
+              path: "select_product",
+              select: "name price",
+            }
+           )
+           .exec();
         return values;
     }
 
     async findById(orderId: string): Promise<IOrder | null> {
-        const order = MongooseOrder.findById(orderId);
+        const order = MongooseOrder.findById(orderId)
+           .populate(
+            {
+              path: "productId",
+              select: "name price",
+            }
+           )
+           .populate(
+            {
+              path: "hospitalId",
+              select: "name",
+            }
+           )
+           .populate(
+            {
+              path: "select_product",
+              select: "name price",
+            }
+           )
+           .exec();;
         return order;
     }
 

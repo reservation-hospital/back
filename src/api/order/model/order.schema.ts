@@ -8,15 +8,18 @@ const orderSchema = new mongoose.Schema(
         user_address: { type: String, required: true },
         user_gender: { type: String, required: true },
         user_email: { type: String, required: true },
-        total_price: { type: Number, required: true },
         memo: { type: String },
         reservation_date: { type: Date, required: true },
         reservation_time: { type: String, required: true },
         status: { type: String, enum: ["pending", "success", "cancel"], default: "pending" },
-        productId: { type: String },
-        hospitalId: { type: String },
+        
+        total_price: { type: Number, required: true },
+        // productId: { type: String },
+        // hospitalId: { type: String },
+        productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+        hospitalId: { type: mongoose.Schema.Types.ObjectId, ref: "Admin" },
+        select_product: [{ type: mongoose.Schema.Types.ObjectId, ref: "SelectProduct" }],
         // hospital: { type: mongoose.Schema.Types.ObjectId, ref: "Hospital" },
-        // select_product: [{ type: mongoose.Schema.Types.ObjectId, ref: "SelectProduct" }],
     },
     {
         timestamps: {

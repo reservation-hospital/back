@@ -11,7 +11,10 @@ import { authRoleMiddleware } from "@/api/common/middleware/authRole.middleware"
 const prodcutRouter = express.Router();
 
 const productController = new ProductController(
-  new ProductServiceImpl(new MongooseProductRepository(), new MongooseAdminRepository()),
+  new ProductServiceImpl(
+    new MongooseProductRepository(), 
+    new MongooseAdminRepository()
+  ),
 );
 
 const PRODUCT_ROUTES = {
