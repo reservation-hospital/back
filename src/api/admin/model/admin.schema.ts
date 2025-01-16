@@ -12,7 +12,8 @@ const AdminSchema = new mongoose.Schema<IAdmin>(
     },
     products: [
       {
-        type: mongoose.Schema.Types.ObjectId, ref: "Product",
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
       },
     ],
     orders: [

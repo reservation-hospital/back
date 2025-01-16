@@ -1,5 +1,4 @@
 import HttpException from "@/api/common/exceptions/http.exception";
-// import { ProductResponseDTO } from "../dto/productResponse.dto";
 import { ProductRepository } from "../repository/product.repository";
 import { AdminRepository } from "@/api/admin/repository/admin.repository";
 import { ProductService } from "./product.service.type";

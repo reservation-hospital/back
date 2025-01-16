@@ -28,8 +28,8 @@ interface IOrder {
     productId: string;
     /** 예약 병원 ID */
     hospitalId: string;
+    /** 예약 선택 상품 정보 */
+    select_product?: string[];
     // /** 예약 병원 정보 */
     // hospital: IHospital;
-    // /** 예약 선택 상품 정보 */
-    // select_product?: ISelectProduct[];
 }

@@ -3,6 +3,7 @@ import OrderController from "@/api/order/controller/order.controller";
 import { MongooseOrderRepository } from "@/api/order/repository/mongooseOrder.repository";
 import { MongooseAdminRepository } from "@/api/admin/repository/mongooseAdmin.repository";
 import { MongooseProductRepository } from "@/api/product/repository/mongooseProduct.repository";
+import { MongooseSelectProductRepository } from "@/api/selectProduct/repository/mongooseSelectProduct.repository";
 import { OrderServiceImpl } from "@/api/order/service/order.service";
 import { extractPath } from "@/utils/path.util";
 import { ROUTES_INDEX } from "@/api";
@@ -12,7 +13,8 @@ const orderController = new OrderController(
   new OrderServiceImpl(
     new MongooseOrderRepository(),
     new MongooseAdminRepository(),
-    new MongooseProductRepository()
+    new MongooseProductRepository(),
+    new MongooseSelectProductRepository
   )
 );
 

@@ -1,9 +1,10 @@
 import HttpException from "@/api/common/exceptions/http.exception";
-import mongoose from "mongoose";
 import { OrderRepository } from "@/api/order/repository/order.repository";
 import { AdminRepository } from "@/api/admin/repository/admin.repository";
 import { ProductRepository } from "@/api/product/repository/product.repository";
+import { SelectProductRepository } from "@/api/selectProduct/repository/selectProduct.repository";
 import { OrderService } from "@/api/order/service/order.service.type";
+import { ObjectId } from 'mongodb';
 // import { OrderResponseDTO } from "@/api/order/dto/orderResponse.dto";
 // import { GetOrderResponseDTO } from "@/api/order/dto/getOrderResponse.dto";
 // import { GetOrdersResponseDTO } from "@/api/order/dto/getOrdersResponse.dto";
@@ -12,7 +13,8 @@ export class OrderServiceImpl implements OrderService {
   constructor(
     private readonly _orderRepository: OrderRepository,
     private readonly _adminRepository: AdminRepository,
-    private readonly _productRepository: ProductRepository
+    private readonly _productRepository: ProductRepository,
+    private readonly _selectProductRepository: SelectProductRepository,
   ) {}
 
   async createOrder(
@@ -21,17 +23,28 @@ export class OrderServiceImpl implements OrderService {
       "id" | "hospitalId"
     >
   ): Promise<IOrder> {
-    // const admin = await this._adminRepository.findById(id);
-
-    // if (!admin) {
-    //   throw new HttpException(404, "입력한 병원이 없습니다.");
-    // }
 
     const product = await this._productRepository.findById(order.productId);
 
     if (!product) {
       throw new HttpException(404, "상품을 찾을 수 없습니다.");
     }
+
+    const selectedProducts = order.select_product
+    ? await Promise.all(
+        order.select_product.map(async (productId) => {
+          const selectedProduct = await this._selectProductRepository.findById(productId);
+          if (!selectedProduct) {
+            throw new HttpException(404, `선택 상품 ID ${productId}를 찾을 수 없습니다.`);
+          }
+          return selectedProduct;
+        })
+      )
+    : [];
+
+    const totalPrice =
+    product.price +
+    selectedProducts.reduce((sum, p) => sum + p.price, 0);
 
     const newOrder: IOrder = {
       id: "",
@@ -41,27 +54,33 @@ export class OrderServiceImpl implements OrderService {
       user_address: order.user_address,
       user_gender: order.user_gender,
       user_email: order.user_email,
-      total_price: order.total_price,
       memo: order.memo,
       reservation_date: order.reservation_date,
       reservation_time: order.reservation_time,
       status: "pending",
+      total_price: totalPrice,
       productId: order.productId,
       hospitalId: product.hospitalId,
+      select_product: order.select_product,
       // hospitalId: id,
       // hospital: order.hospital,
-      // select_product: order.select_product,
     };
 
     const savedOrder = await this._orderRepository.save(newOrder);
 
-    // const updatedOrder = admin.orders
-    //   ? admin.orders.concat(savedOrder)
-    //   : [savedOrder];
+    const findAdmin = await this._adminRepository.findById(product.hospitalId);
 
-    // await this._adminRepository.update(admin.id, {
-    //   orders: updatedOrder,
-    // });
+    if (!findAdmin) {
+      throw new HttpException(409, "존재하지 않는 병원입니다.");
+    }
+
+    const updatedOrder = findAdmin.orders
+      ? findAdmin.orders.concat(savedOrder)
+      : [savedOrder];
+
+    await this._adminRepository.update(product.hospitalId, {
+      orders: updatedOrder,
+    });
 
     return savedOrder;
   }
@@ -103,6 +122,18 @@ export class OrderServiceImpl implements OrderService {
     if (!findOrder) {
       throw new HttpException(404, "예약을 찾을 수 없습니다.");
     }
+
+    const findAdmin = await this._adminRepository.findById(findOrder.hospitalId);
+
+    if (!findAdmin) {
+      throw new HttpException(409, "존재하지 않는 병원입니다.");
+    }
+
+    const updatedOrders = (findAdmin.orders || []).filter((p) => {
+      return new ObjectId(p.id).toString() !== new ObjectId(findOrder.id).toString();
+    });
+
+    await this._adminRepository.update(findAdmin.id, { orders: updatedOrders });
 
     await this._orderRepository.delete(orderId);
   }

@@ -18,13 +18,39 @@ export class MongooseProductRepository implements ProductRepository {
   }
 
   async findAll(): Promise<IProduct[]> {
-    const products = await MongooseProduct.find();
+    const products = await MongooseProduct.find()
+     .populate(
+      {
+        path: "selective",
+        select: "name price",
+      }
+     )
+     .populate(
+      {
+        path: "hospitalId",
+        select: "name",
+      }
+     )
+     .exec();
     if (!products) throw new HttpException(404, "상품을 찾을 수 없습니다.");
     return products;
   }
 
   async findById(productId: string): Promise<IProduct | null> {
-    const product = MongooseProduct.findById(productId);
+    const product = MongooseProduct.findById(productId)
+     .populate(
+      {
+        path: "selective",
+        select: "name price",
+      }
+     )
+     .populate(
+      {
+        path: "hospitalId",
+        select: "name",
+      }
+     )
+     .exec();
     if (!product) throw new HttpException(404, "상품을 찾을 수 없습니다.");
     return product;
   }

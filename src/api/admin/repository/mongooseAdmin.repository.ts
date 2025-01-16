@@ -12,13 +12,51 @@ export class MongooseAdminRepository implements AdminRepository {
 
   /** 관리자 전체 조회(role = admin) */
   async findAll(): Promise<IAdmin[]> {
-    const admins = await MongooseAdmin.find().exec();
+    const admins = await MongooseAdmin.find()
+      .populate(
+        {
+          path: "products",
+          select: "name price description hospitalId",
+        }
+      )
+      .populate(
+        {
+          path: "orders",
+          select: "user_name user_tell memo productId hospitalId select_product",
+        }
+      )
+      .populate(
+        {
+          path: "selectProducts",
+          select: "name price description",
+        }
+      )
+      .exec();
     return admins;
   }
 
   /** 관리자 조회(role = admin) */
   async findById(id: string): Promise<IAdmin | null> {
-    const admin = await MongooseAdmin.findById(id);
+    const admin = await MongooseAdmin.findById(id)
+      .populate(
+        {
+          path: "products",
+          select: "name price description hospitalId",
+        }
+      )
+      .populate(
+        {
+          path: "orders",
+          select: "user_name user_tell memo productId hospitalId select_product",
+        }
+      )
+      .populate(
+        {
+          path: "selectProducts",
+          select: "name price description",
+        }
+      )
+      .exec();
     if (!admin) {
       throw new HttpException(404, "해당 관리자를 찾을 수 없습니다.");
     }

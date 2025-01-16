@@ -3,7 +3,7 @@
 // import { GetOrdersResponseDTO } from "@/api/order/dto/getOrdersResponse.dto";
 
 export interface OrderService {
-    createOrder(order: Omit<IOrder, "id" | "hospitalId">
+    createOrder(order: Omit<IOrder, "id" | "total_price" | "hospitalId">
     ): Promise<IOrder>;
     
     getOrders(): Promise<IOrder[]>;
