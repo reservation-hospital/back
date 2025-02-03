@@ -15,9 +15,9 @@ const adminRouter = express.Router();
 
 const adminController = new AdminController(
   new AdminServiceImpl(
-    new MongooseAdminRepository(),
+    new MongooseAdminRepository()
     // new MongooseSelectProductRepository()
-  ),
+  )
 );
 
 const ADMIN_ROUTES = {
@@ -43,7 +43,7 @@ adminRouter.post(
 /** 관리자 전체 조회(role = admin) */
 adminRouter.get(
   extractPath(ADMIN_ROUTES.GET_ADMINS, ROUTES_INDEX.ADMIN_API),
-  authRoleMiddleware(["admin"]),
+  authRoleMiddleware(["admin", "hospital"]),
   adminController.getAdmins
 );
 

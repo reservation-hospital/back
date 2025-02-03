@@ -4,7 +4,11 @@ interface IHospital {
   /** 이름 */
   hospitalName?: string;
   /** 주소 */
-  address?: string;
+  address?: {
+    zipcode: string;
+    basic: string;
+    detail: string;
+  };
   /** 위도 */
   latitude?: string;
   /** 경도 */

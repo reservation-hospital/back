@@ -19,7 +19,9 @@ export default class AdminController {
       const admin = await this._adminService.signUp({
         email: req.body.email,
         password: req.body.password,
-        name: req.body.name,
+        hospitalName: req.body.hospitalName,
+        address: req.body.address,
+        businessNumber: req.body.businessNumber,
         hospital: req.body.hospital,
       });
 
@@ -46,7 +48,7 @@ export default class AdminController {
   /** 관리자 조회(role = admin) */
   async getAdmin(req: Request, res: Response, next: NextFunction) {
     try {
-      const {id} = req.admin
+      const { id } = req.admin;
       console.log(id);
       const admin = await this._adminService.getAdmin(id);
 
@@ -65,8 +67,8 @@ export default class AdminController {
       // const { id } = req.params;
       // await this._adminService.updateAdmin(id, req.body);
 
-      const updateData = {...req.body};
-      
+      const updateData = { ...req.body };
+
       if (updateData.password) {
         const saltedPassword = await bcrypt.hash(updateData.password, 10);
         updateData.password = saltedPassword;

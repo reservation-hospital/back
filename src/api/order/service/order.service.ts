@@ -4,7 +4,7 @@ import { AdminRepository } from "@/api/admin/repository/admin.repository";
 import { ProductRepository } from "@/api/product/repository/product.repository";
 import { SelectProductRepository } from "@/api/selectProduct/repository/selectProduct.repository";
 import { OrderService } from "@/api/order/service/order.service.type";
-import { ObjectId } from 'mongodb';
+import { ObjectId } from "mongodb";
 // import { OrderResponseDTO } from "@/api/order/dto/orderResponse.dto";
 // import { GetOrderResponseDTO } from "@/api/order/dto/getOrderResponse.dto";
 // import { GetOrdersResponseDTO } from "@/api/order/dto/getOrdersResponse.dto";
@@ -14,16 +14,10 @@ export class OrderServiceImpl implements OrderService {
     private readonly _orderRepository: OrderRepository,
     private readonly _adminRepository: AdminRepository,
     private readonly _productRepository: ProductRepository,
-    private readonly _selectProductRepository: SelectProductRepository,
+    private readonly _selectProductRepository: SelectProductRepository
   ) {}
 
-  async createOrder(
-    order: Omit<
-      IOrder,
-      "id" | "hospitalId"
-    >
-  ): Promise<IOrder> {
-
+  async createOrder(order: Omit<IOrder, "id" | "hospitalId">): Promise<IOrder> {
     const product = await this._productRepository.findById(order.productId);
 
     if (!product) {
@@ -31,20 +25,23 @@ export class OrderServiceImpl implements OrderService {
     }
 
     const selectedProducts = order.select_product
-    ? await Promise.all(
-        order.select_product.map(async (productId) => {
-          const selectedProduct = await this._selectProductRepository.findById(productId);
-          if (!selectedProduct) {
-            throw new HttpException(404, `선택 상품 ID ${productId}를 찾을 수 없습니다.`);
-          }
-          return selectedProduct;
-        })
-      )
-    : [];
+      ? await Promise.all(
+          order.select_product.map(async (productId) => {
+            const selectedProduct =
+              await this._selectProductRepository.findById(productId);
+            if (!selectedProduct) {
+              throw new HttpException(
+                404,
+                `선택 상품 ID ${productId}를 찾을 수 없습니다.`
+              );
+            }
+            return selectedProduct;
+          })
+        )
+      : [];
 
     const totalPrice =
-    product.price +
-    selectedProducts.reduce((sum, p) => sum + p.price, 0);
+      product.price + selectedProducts.reduce((sum, p) => sum + p.price, 0);
 
     const newOrder: IOrder = {
       id: "",
@@ -90,14 +87,37 @@ export class OrderServiceImpl implements OrderService {
     return orders;
   }
 
-  async getOrder(orderId: string): Promise<IOrder | null> {
-    const order = await this._orderRepository.findById(orderId);
+  // async getOrder(orderId: string): Promise<IOrder | null> {
+  //   const order = await this._orderRepository.findById(orderId);
 
-    if (!order) {
-      throw new HttpException(404, "예약 정보 조회 실패");
+  //   if (!order) {
+  //     throw new HttpException(404, "예약 정보 조회 실패");
+  //   }
+
+  //   return order;
+  // }
+  async getOrder(user_tell: string, email: string): Promise<IOrder[]> {
+    if (user_tell) {
+      const orders = await this._orderRepository.findByTell(user_tell);
+      if (orders.length === 0) {
+        throw new HttpException(
+          404,
+          "해당 휴대폰 번호로 조회된 예약 내역이 없습니다."
+        );
+      }
+      return orders;
+    } else if (email) {
+      const orders = await this._orderRepository.findByEmail(email);
+      if (orders.length === 0) {
+        throw new HttpException(
+          404,
+          "해당 이메일로 조회된 예약 내역이 없습니다."
+        );
+      }
+      return orders;
+    } else {
+      throw new HttpException(404, "주문 정보 조회 실패");
     }
-
-    return order;
   }
 
   async updateOrder(
@@ -123,14 +143,18 @@ export class OrderServiceImpl implements OrderService {
       throw new HttpException(404, "예약을 찾을 수 없습니다.");
     }
 
-    const findAdmin = await this._adminRepository.findById(findOrder.hospitalId);
+    const findAdmin = await this._adminRepository.findById(
+      findOrder.hospitalId
+    );
 
     if (!findAdmin) {
       throw new HttpException(409, "존재하지 않는 병원입니다.");
     }
 
     const updatedOrders = (findAdmin.orders || []).filter((p) => {
-      return new ObjectId(p.id).toString() !== new ObjectId(findOrder.id).toString();
+      return (
+        new ObjectId(p.id).toString() !== new ObjectId(findOrder.id).toString()
+      );
     });
 
     await this._adminRepository.update(findAdmin.id, { orders: updatedOrders });

@@ -14,7 +14,7 @@ const orderController = new OrderController(
     new MongooseOrderRepository(),
     new MongooseAdminRepository(),
     new MongooseProductRepository(),
-    new MongooseSelectProductRepository
+    new MongooseSelectProductRepository()
   )
 );
 
@@ -28,7 +28,8 @@ const ORDER_ROUTER = {
   /** 주문 조회 */
   GET_ORDERS: "/api/order",
   /** 주문 상세 조회 */
-  GET_ORDER: "/api/order/:orderId",
+  // GET_ORDER: "/api/order/:orderId",
+  GET_ORDER: "/api/order/detail",
 } as const;
 
 /** 주문 생성 */

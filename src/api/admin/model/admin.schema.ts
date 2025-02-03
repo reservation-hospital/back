@@ -4,7 +4,7 @@ const AdminSchema = new mongoose.Schema<IAdmin>(
   {
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    name: { type: String, required: true },
+    hospitalName: { type: String, required: true },
     role: { type: String, enum: ["admin", "hospital"], default: "hospital" },
     hospital: {
       type: Object,

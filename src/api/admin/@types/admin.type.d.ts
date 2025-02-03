@@ -10,7 +10,15 @@ interface IAdmin {
   /** 권한 */
   role?: role;
   /** 이름 */
-  name: string;
+  hospitalName: string;
+  /** 주소 */
+  address?: {
+    zipcode: string;
+    basic: string;
+    detail: string;
+  };
+  /** 전화번호 */
+  businessNumber?: string;
   /** 병원 */
   hospital?: IHospital;
   /** 상품 목록 */
