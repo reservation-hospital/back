@@ -1,9 +1,9 @@
-import { ProductResponseDTO } from "../dto/productResponse.dto";
+// import { ProductResponseDTO } from "../dto/productResponse.dto";
 
 export interface ProductService {
-  createProduct(product: ProductResponseDTO): Promise<ProductResponseDTO>;
-  getProducts(): Promise<ProductResponseDTO[]>;
-  getProductById(productId: string): Promise<ProductResponseDTO>;
-  updateProduct(productId: string, product: ProductResponseDTO): Promise<void>;
-  deleteProduct(productId: string): Promise<void>;
+  createProduct(hospitalId:string, product: Omit<IProduct, "id" | "hospitalId">): Promise<IProduct>;
+  getProducts(): Promise<IProduct[]>;
+  getProductById(productId: string): Promise<IProduct>;
+  updateProduct(productId: string, product: Omit<IProduct, "id" | "hospitalId">): Promise<void>;
+  deleteProduct(hospitalId:string, productId: string): Promise<void>;
 }

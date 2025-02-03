@@ -14,8 +14,13 @@ export default class ProductController {
   }
   async createProduct(req: Request, res: Response, next: NextFunction) {
     try {
+      const hospitalId = req.admin.id;
+      // console.log(hospitalId)
+
       const { name, price, description, selective } = req.body;
-      const newProduct = await this._productService.createProduct({
+      const newProduct = await this._productService.createProduct(
+      hospitalId,   
+      {
         name,
         price,
         description,
@@ -63,8 +68,9 @@ export default class ProductController {
   }
   async deleteProduct(req: Request, res: Response, next: NextFunction) {
     try {
+      const hospitalId = req.admin.id;
       const { productId } = req.params;
-      await this._productService.deleteProduct(productId);
+      await this._productService.deleteProduct(hospitalId, productId);
       res.status(200).json({ message: "상품이 삭제되었습니다." });
     } catch (err) {
       next(err);
