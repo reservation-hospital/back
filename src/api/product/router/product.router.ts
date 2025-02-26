@@ -12,9 +12,9 @@ const prodcutRouter = express.Router();
 
 const productController = new ProductController(
   new ProductServiceImpl(
-    new MongooseProductRepository(), 
+    new MongooseProductRepository(),
     new MongooseAdminRepository()
-  ),
+  )
 );
 
 const PRODUCT_ROUTES = {
@@ -27,12 +27,12 @@ const PRODUCT_ROUTES = {
 
 prodcutRouter.get(
   extractPath(PRODUCT_ROUTES.GET_PRODUCTS, ROUTES_INDEX.PRODUCT_API),
-  // authRoleMiddleware(["admin", "hospital"]),
+  authRoleMiddleware(["admin", "hospital"]),
   productController.getProducts
 );
 prodcutRouter.get(
   extractPath(PRODUCT_ROUTES.GET_PRODUCT, ROUTES_INDEX.PRODUCT_API),
-  // authRoleMiddleware(["admin", "hospital"]),
+  authRoleMiddleware(["admin", "hospital"]),
   productController.getProduct
 );
 prodcutRouter.post(

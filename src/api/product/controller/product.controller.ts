@@ -15,12 +15,9 @@ export default class ProductController {
   async createProduct(req: Request, res: Response, next: NextFunction) {
     try {
       const hospitalId = req.admin.id;
-      // console.log(hospitalId)
 
       const { name, price, description, selective } = req.body;
-      const newProduct = await this._productService.createProduct(
-      hospitalId,   
-      {
+      const newProduct = await this._productService.createProduct(hospitalId, {
         name,
         price,
         description,

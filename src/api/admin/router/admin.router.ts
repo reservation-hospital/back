@@ -43,15 +43,14 @@ adminRouter.post(
 /** 관리자 전체 조회(role = admin) */
 adminRouter.get(
   extractPath(ADMIN_ROUTES.GET_ADMINS, ROUTES_INDEX.ADMIN_API),
-  authRoleMiddleware(["admin", "hospital"]),
+  authRoleMiddleware(["admin"]),
   adminController.getAdmins
 );
 
-/** 관리자 조회(role = admin) */
+/** 관리자 조회s */
 adminRouter.get(
   extractPath(ADMIN_ROUTES.GET_ADMIN, ROUTES_INDEX.ADMIN_API),
   authRoleMiddleware(["admin", "hospital"]),
-  authAdminMiddleware,
   adminController.getAdmin
 );
 

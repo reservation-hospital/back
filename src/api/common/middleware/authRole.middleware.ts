@@ -20,8 +20,6 @@ export const authRoleMiddleware = (roles: role[]) => {
       // 페이로드에서 역할을 확인합니다.
       const payload = JwtService.verifyAccessToken(tokenValue);
 
-      // console.log(payload);
-
       // 역할이 없으면 에러를 던집니다.
       if (!roles.includes(payload.role)) {
         throw new HttpException(403, "권한이 없습니다.");

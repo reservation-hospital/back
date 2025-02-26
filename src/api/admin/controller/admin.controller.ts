@@ -19,9 +19,7 @@ export default class AdminController {
       const admin = await this._adminService.signUp({
         email: req.body.email,
         password: req.body.password,
-        hospitalName: req.body.hospitalName,
-        address: req.body.address,
-        businessNumber: req.body.businessNumber,
+        name: req.body.name,
         hospital: req.body.hospital,
       });
 
@@ -45,11 +43,10 @@ export default class AdminController {
     }
   }
 
-  /** 관리자 조회(role = admin) */
+  /** 관리자 조회(role = admin,hospital) */
   async getAdmin(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.admin;
-      console.log(id);
       const admin = await this._adminService.getAdmin(id);
 
       res.status(200).json({
