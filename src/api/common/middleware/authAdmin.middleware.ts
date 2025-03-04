@@ -18,11 +18,11 @@ export const authAdminMiddleware = (
     const tokenValue = token.split("Bearer ")[1];
 
     const payload = JwtService.verifyAccessToken(tokenValue);
-    console.log(payload);
     req.admin = {
       id: payload.id,
       role: payload.role,
     };
+    console.log(payload);
 
     next();
   } catch (error: any) {

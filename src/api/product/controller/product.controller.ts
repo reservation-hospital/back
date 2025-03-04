@@ -17,6 +17,7 @@ export default class ProductController {
       const hospitalId = req.admin.id;
 
       const { name, price, description, selective } = req.body;
+      console.log(req.body);
       const newProduct = await this._productService.createProduct(hospitalId, {
         name,
         price,
@@ -33,6 +34,7 @@ export default class ProductController {
   async getProducts(req: Request, res: Response, next: NextFunction) {
     try {
       const products = await this._productService.getProducts();
+      console.log(products);
       res.status(200).json({ data: products, message: "상품 목록입니다." });
     } catch (err) {
       next(err);

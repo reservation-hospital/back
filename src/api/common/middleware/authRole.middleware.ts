@@ -16,6 +16,7 @@ export const authRoleMiddleware = (roles: role[]) => {
 
       // 토큰에서 페이로드를 가져옵니다.
       const tokenValue = token.split("Bearer ")[1];
+      console.log(tokenValue);
 
       // 페이로드에서 역할을 확인합니다.
       const payload = JwtService.verifyAccessToken(tokenValue);
