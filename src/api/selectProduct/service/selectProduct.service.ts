@@ -45,10 +45,6 @@ export class SelectProductServiceImpl implements SelectProductService {
   async getSelectProducts(): Promise<ISelectProduct[]> {
     const selectProducts = await this._selectProductRepository.findAll();
 
-    // const newList = await Promise.all(
-    //     selectProducts.map((selectProduct)=>new GetSelectProductsResponseDTO(selectProduct))
-    // );
-
     return selectProducts;
   }
 
