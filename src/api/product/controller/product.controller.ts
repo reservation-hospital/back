@@ -17,7 +17,6 @@ export default class ProductController {
       const hospitalId = req.admin.id;
 
       const { name, price, description, selective } = req.body;
-      console.log(req.body);
       const newProduct = await this._productService.createProduct(hospitalId, {
         name,
         price,
