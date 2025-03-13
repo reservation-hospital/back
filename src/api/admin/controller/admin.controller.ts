@@ -10,6 +10,7 @@ export default class AdminController {
     this.getAdmin = this.getAdmin.bind(this);
     this.updateAdmin = this.updateAdmin.bind(this);
     this.deleteAdmin = this.deleteAdmin.bind(this);
+    this.getUserAdmin = this.getUserAdmin.bind(this);
   }
 
   /** 회원가입(role = admin, hospital) */
@@ -61,8 +62,7 @@ export default class AdminController {
   async getUserAdmin(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      console.log(`id이다: ${id}`);
-      const admin = await this._adminService.getAdmin(id);
+      const admin = await this._adminService.userGetAdmin(id);
 
       res.status(200).json({
         message: "관리자 상세 조회 성공",
