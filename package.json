@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "pm2": "cross-env NODE_ENV=development pm2 start app.js --watch",
     "dev": "cross-env NODE_ENV=development nodemon",
     "build": "tsc -p tsconfig.json",
     "start": "node -r ts-node/register/transpile-only -r ts-node -r tsconfig-paths/register dist"
