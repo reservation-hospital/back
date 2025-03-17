@@ -53,7 +53,7 @@ export class AdminServiceImpl implements AdminService {
     params: Partial<Omit<IAdmin, "id" | "order">>
   ): Promise<void> {
     const findAdmin = await this._adminRepository.findById(id);
-
+    console.log(findAdmin);
     if (!findAdmin) {
       throw new HttpException(404, "해당 관리자는 존재하지 않습니다.");
     }
@@ -73,5 +73,13 @@ export class AdminServiceImpl implements AdminService {
     }
     await this._adminRepository.delete(id);
     return;
+  }
+
+  async userGetAdmin(id: string): Promise<IAdmin> {
+    const admin = await this._adminRepository.findById(id);
+    if (!admin) {
+      throw new HttpException(404, "해당 관리자는 존재하지 않습니다.");
+    }
+    return admin;
   }
 }

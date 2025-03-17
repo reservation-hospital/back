@@ -32,6 +32,7 @@ export class ProductServiceImpl implements ProductService {
       selective: product.selective,
       hospitalId: hospitalId,
     };
+    console.log("newProduct", newProduct);
 
     const savedProduct = await this._productRepository.save(
       hospitalId,

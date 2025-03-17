@@ -12,10 +12,11 @@ export class MongooseProductRepository implements ProductRepository {
     if (!admin) {
       throw new HttpException(404, "병원을 찾을 수 없습니다.");
     }
-    const newProduct = await new MongooseProduct({
+    const newProduct = new MongooseProduct({
       ...params,
       hospitalId: hospitalId,
     });
+    console.log(newProduct);
     const product = newProduct.save();
     return product;
   }

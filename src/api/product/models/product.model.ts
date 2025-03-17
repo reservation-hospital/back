@@ -3,7 +3,7 @@ export class Product implements IProduct {
   name: string;
   price: number;
   description: string;
-  selective?: string[];
+  selective?: string;
   hospitalId: string;
 
   constructor(params: IProduct) {

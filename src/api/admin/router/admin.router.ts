@@ -9,10 +9,6 @@ import { authRoleMiddleware } from "@/api/common/middleware/authRole.middleware"
 
 const adminRouter = express.Router();
 
-// const adminService = new AdminServiceImpl(new MongooseAdminRepository());
-
-// const adminController = new AdminController(adminService);
-
 const adminController = new AdminController(
   new AdminServiceImpl(
     new MongooseAdminRepository()
@@ -25,6 +21,8 @@ const ADMIN_ROUTES = {
   SIGN_UP: `/api/admin/`,
   /** 관리자 전체 조회(role = admin)(get) */
   GET_ADMINS: `/api/admin/`,
+  /** 관리자 조회(role = user)(get) */
+  USER_GET_ADMIN: `/api/admin/:id`,
   /** 관리자 조회(role = admin)(get) */
   // req.admin.id로 조회하기
   GET_ADMIN: `/api/admin/me`,
@@ -47,11 +45,17 @@ adminRouter.get(
   adminController.getAdmins
 );
 
-/** 관리자 조회s */
+/** 관리자 조회 for id */
 adminRouter.get(
   extractPath(ADMIN_ROUTES.GET_ADMIN, ROUTES_INDEX.ADMIN_API),
   authRoleMiddleware(["admin", "hospital"]),
   adminController.getAdmin
+);
+
+/** user 관리자 조회 */
+adminRouter.get(
+  extractPath(ADMIN_ROUTES.USER_GET_ADMIN, ROUTES_INDEX.ADMIN_API),
+  adminController.getUserAdmin
 );
 
 /** 관리자 수정(role = admin) */
@@ -65,8 +69,8 @@ adminRouter.put(
 /** 관리자 삭제(role = admin) */
 adminRouter.delete(
   extractPath(ADMIN_ROUTES.DELETE_ADMIN, ROUTES_INDEX.ADMIN_API),
-  authRoleMiddleware(["admin"]),
-  authAdminMiddleware,
+  // authRoleMiddleware(["admin"]),
+  // authAdminMiddleware,
   adminController.deleteAdmin
 );
 
