@@ -1,0 +1,1 @@
+{"version":3,"file":"auth.service.type.js","sourceRoot":"","sources":["../../../../src/api/auth/service/auth.service.type.ts"],"names":[],"mappings":"","sourcesContent":["export interface AuthService {\n  /** 로그인 */\n  login(\n    email: string,\n    password: string\n  ): Promise<{ accessToken: string; user: IAdmin }>;\n  /** 로그아웃 */\n  logout(): Promise<void>;\n}\n"]}
