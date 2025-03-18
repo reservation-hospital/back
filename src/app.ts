@@ -18,10 +18,10 @@ const port = process.env.PORT || 4000;
 
 app.use(
   cors({
-    // 프론트엔드의 도메인
-    origin: "http://localhost:3000",
-    // 쿠키 전송 허용
-    credentials: true,
+    // 모든 도메인 허용
+    origin: "*",
+    // 쿠키 전송 비허용 (credentials는 origin: "*"와 함께 사용할 수 없음)
+    credentials: false,
   })
 );
 
