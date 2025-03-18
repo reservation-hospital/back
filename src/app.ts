@@ -19,7 +19,11 @@ const port = process.env.PORT || 4000;
 app.use(
   cors({
     // 프론트엔드의 도메인
-    origin: "*",
+    origin: [
+      "http://localhost:3000",
+      "https://hospital-project-snowy.vercel.app",
+      "http://hospital-project-snowy.vercel.app",
+    ],
     // 쿠키 전송 허용
     credentials: true,
   })
