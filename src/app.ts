@@ -53,6 +53,21 @@ app.use(ROUTES_INDEX.AUTH_API, authRouter);
 
 app.use(errorHandler);
 
+// aws health check
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "UP",
+    timestamp: new Date().toISOString(),
+    checks: [
+      {
+        name: "database",
+        status: "UP",
+        // 여기에 데이터베이스 연결 확인 로직 추가 가능
+      },
+    ],
+  });
+});
+
 app.listen(port, () => {
   console.log(`SERVER started at http://localhost:${port} ^-^`);
 });
