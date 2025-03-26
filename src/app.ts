@@ -23,6 +23,7 @@ app.use(
       "http://localhost:3000",
       "https://hospital-project-snowy.vercel.app",
       "http://hospital-project-snowy.vercel.app",
+      "https://h4unn.store",
     ],
     // 쿠키 전송 허용
     credentials: true,
