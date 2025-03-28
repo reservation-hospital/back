@@ -18,7 +18,7 @@ export default class AuthController {
         data: result,
       });
     } catch (error) {
-      res.status(500).json({ message: "로그인 실패" });
+      res.status(400).json({ message: "로그인 실패" });
     }
   }
 

@@ -15,7 +15,6 @@ export class AuthServiceImpl implements AuthService {
     password: string
   ): Promise<{ accessToken: string; user: IAdmin }> {
     let findEmail = await this._adminRepository.findByEmail(email);
-    console.log(findEmail);
     if (!findEmail) {
       throw new HttpException(404, "존재하지 않는 회원입니다.");
     }
