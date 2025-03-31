@@ -14,7 +14,7 @@ const orderSchema = new mongoose.Schema(
     user_email: { type: String, required: true },
     memo: { type: String },
     reservation_date: { type: Date, required: true },
-    reservation_time: { type: String, required: true },
+    reservation_time: { type: String },
     status: {
       type: String,
       enum: ["pending", "success", "cancel"],

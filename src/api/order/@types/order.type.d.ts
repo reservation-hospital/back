@@ -24,7 +24,7 @@ interface IOrder {
   /** 예약 날짜 */
   reservation_date: Date;
   /** 예약 시간 */
-  reservation_time: string;
+  reservation_time?: string;
   /** 예약 상태 */
   status?: "pending" | "success" | "cancel";
 

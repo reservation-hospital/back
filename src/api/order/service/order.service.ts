@@ -5,9 +5,6 @@ import { ProductRepository } from "@/api/product/repository/product.repository";
 import { SelectProductRepository } from "@/api/selectProduct/repository/selectProduct.repository";
 import { OrderService } from "@/api/order/service/order.service.type";
 import { ObjectId } from "mongodb";
-// import { OrderResponseDTO } from "@/api/order/dto/orderResponse.dto";
-// import { GetOrderResponseDTO } from "@/api/order/dto/getOrderResponse.dto";
-// import { GetOrdersResponseDTO } from "@/api/order/dto/getOrdersResponse.dto";
 
 export class OrderServiceImpl implements OrderService {
   constructor(
@@ -17,7 +14,7 @@ export class OrderServiceImpl implements OrderService {
     private readonly _selectProductRepository: SelectProductRepository
   ) {}
 
-  async createOrder(order: Omit<IOrder, "id" | "hospitalId">): Promise<IOrder> {
+  async createOrder(order: Omit<IOrder, "id">): Promise<IOrder> {
     const product = await this._productRepository.findById(order.productId);
 
     if (!product) {
@@ -59,8 +56,6 @@ export class OrderServiceImpl implements OrderService {
       productId: order.productId,
       hospitalId: product.hospitalId,
       select_product: order.select_product,
-      // hospitalId: id,
-      // hospital: order.hospital,
     };
 
     const savedOrder = await this._orderRepository.save(newOrder);

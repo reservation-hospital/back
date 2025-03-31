@@ -12,7 +12,7 @@ export default class Order implements IOrder {
   user_email: string;
   memo?: string;
   reservation_date: Date;
-  reservation_time: string;
+  reservation_time?: string;
   status?: "pending" | "success" | "cancel";
 
   total_price: number;
